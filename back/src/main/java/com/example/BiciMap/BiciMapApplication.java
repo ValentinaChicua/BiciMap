@@ -1,8 +1,6 @@
 package com.example.BiciMap;
 
-import menus.FavoritosMenu;
-import menus.HistorialMenu;
-import menus.MenuPilaUsuarios;
+import menus.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -19,12 +17,22 @@ public class BiciMapApplication {
 
 
 		Scanner scanner = new Scanner(System.in);
+		String titulo = "*****************************************************************\n"+
+				"                               ,o\n" +
+				"                           __ <<<<__\n" +
+				"                          (_)       (_)  ";
+
+		// Imprimir el título
+
+		// Imprimir el título
+		System.out.println(titulo);
 
 		System.out.println("Bienvenidos a BiciMap. Por favor, elige una de nuestras opciones:");
 		System.out.println("1. Rutas Favoritas");
 		System.out.println("2. Historial de Rutas");
 		System.out.println("3. Usuarios");
-		System.out.println("4. Salir");
+		System.out.println("4. Rutas");
+		System.out.println("5. Salir");
 
 		int opcion = scanner.nextInt();
 
@@ -41,7 +49,13 @@ public class BiciMapApplication {
 
 				MenuPilaUsuarios.main(args);
 				break;
+
 			case 4:
+
+				mainNodePointMenu.main(args);
+
+				break;
+			case 5:
 				System.out.println("Gracias por usar BiciMap. ¡Hasta luego!");
 				break;
 			default:
