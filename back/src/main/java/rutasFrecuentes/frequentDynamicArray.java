@@ -1,8 +1,8 @@
 package rutasFrecuentes;
 
 public class frequentDynamicArray {
+    public int size;
 
-    int size;
     int capacity = 4;
     Object[] frequent;
 

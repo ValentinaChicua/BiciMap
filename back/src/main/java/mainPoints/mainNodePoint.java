@@ -1,5 +1,9 @@
 package mainPoints;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+
 public class mainNodePoint extends linkListedPoint {
     public void push(double latitud, double longitud, String nombre) {
         nodePoint newNodePoint = new nodePoint(latitud, longitud, nombre);
