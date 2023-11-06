@@ -1,16 +1,16 @@
-package rutas;
+package rutas.segundaEntrega;
 
-public class Nodo {
+public class NodoActual2 {
     String iniDireccion;
     String finDireccion;
-    double latitudInicio;
-    double longitudInicio;
-    double latitudFin;
-    double longitudFin;
+    String latitudInicio;
+    String longitudInicio;
+    String latitudFin;
+    String longitudFin;
     double km;
-    Nodo next;
+    NodoActual2 next;
 
-    public Nodo(String iniD, String finD,double latInicio, double lonInicio, double latFin, double lonFin, double km) {
+    public NodoActual2(String iniD, String finD, String latInicio, String lonInicio, String latFin, String lonFin, double km) {
         this.iniDireccion = iniD;
         this.finDireccion = finD;
         this.latitudInicio = latInicio;
@@ -21,3 +21,9 @@ public class Nodo {
         next = null;
     }
 }
+
+
+
+
+
+
