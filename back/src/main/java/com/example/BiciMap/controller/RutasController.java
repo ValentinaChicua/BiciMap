@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import rutas.Queue;
+import rutas.primeraEntrega.*;
+
 @Controller
 @RequestMapping("/rutas")
 public class RutasController {
