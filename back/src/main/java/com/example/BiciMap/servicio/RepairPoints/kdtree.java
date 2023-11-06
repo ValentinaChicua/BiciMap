@@ -1,18 +1,21 @@
-package RepairPoints;
+package com.example.BiciMap.servicio.RepairPoints;
+
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+@Service
 public class kdtree {
     private static final int K = 2;
-    private nodo root;
+    public  nodo root;
     public kdtree() {
         root = null;
     }
     public void insert(double[] coordenada) {
         root = insert(root,coordenada,0);
     }
-    public nodo insert(nodo node, double[] coordenada,int depth) {
+    public nodo insert(nodo node, double[] coordenada, int depth) {
         if (node == null) {
             return new nodo(coordenada, depth);
         }
@@ -69,5 +72,20 @@ public class kdtree {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return R * c;
+    }
+    public void print(nodo nodo){
+
+        if (nodo == null) {
+            return;
+        }
+
+        // Recorre el subárbol izquierdo
+        print(nodo.getLeft());
+
+        // Imprime el valor del nodo actual
+        System.out.println("Latitud: " + Arrays.toString(nodo.coordenada));
+
+        // Recorre el subárbol derecho
+        print(nodo.getRight());
     }
 }

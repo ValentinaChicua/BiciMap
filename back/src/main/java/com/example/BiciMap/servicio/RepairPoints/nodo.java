@@ -1,5 +1,8 @@
-package RepairPoints;
+package com.example.BiciMap.servicio.RepairPoints;
 
+import lombok.Data;
+
+@Data
 public class nodo {
     double [] coordenada;
     int depth;
@@ -11,4 +14,5 @@ public class nodo {
         this.left=null;
         this.right = null;
     }
+
 }
