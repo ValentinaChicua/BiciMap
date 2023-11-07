@@ -32,4 +32,16 @@ public class UsuarioService {
     public void eliminarUsuario(String correo) {
         arbolUsuarios.eliminar(correo);
     }
+
+
+    public boolean verificarCredenciales(String correo, String contrasena) {
+        Usuario usuario = arbolUsuarios.buscar(correo);
+        if (usuario != null && usuario.getContraseña().equals(contrasena)) {
+
+            return true;
+        }
+
+        return false;
+    }
+
 }

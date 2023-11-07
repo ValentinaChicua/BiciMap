@@ -32,14 +32,14 @@
     </div>
 </nav>
 <div class="container-fluid p-0 position-relative" >
-    <img src="../static/ciclovia-boletin.jpg" class="img-fluid" style="height: 50%; width: 100%; alt="Imagen de fondo">
+    <img src="../static/ciclovia-boletin.jpg" class="img-fluid" style="height: 50%; width: 100%;" alt="Imagen de fondo">
     <br>
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="card">
                 <h1 class="mt-5">Inicio de sesión</h1>
                 <p>Inicia sesión con tu cuenta de BiciMaps.</p>
-                <form method="POST" th:action="@{/guardarusuario}" th:object="${usuario}" class="mt-3">
+                <form method="POST" th:action="@{usuarios/verificarLogin}" th:object="${usuarioC}" class="mt-3">
                     <div class="mb-3 form-group">
                         <label for="correoElectronico" class="form-label">E-mail:</label>
                         <input type="text" id="correoElectronico" name="correoElectronico" th:field="*{correoElectronico}" class="form-control" placeholder="Digite su Email" required>
