@@ -11,35 +11,38 @@
 </head>
 <body>
 
+
+
+
 <div class="container">
-    <div class="row">
-        <h1>Lista de usuarios</h1>
-    </div>
+    <h1>Lista de usuarios</h1>
     <table class="table table-striped table-bordered">
-    <thead class="table-success">
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre </th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Email</th>
-        <th scope="col">Direccion</th>
-        <th scope="col">Localidad</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="usuarios: ${usuarios1}">
-        <th scope="row">1</th>
-        <td th:text="${usuarios.nombre}"></td>
-        <td th:text="${usuarios.apellido}"></td>
-        <td th:text="${usuarios.correoElectronico}">@mdo</td>
-        <td th:text="${usuarios.ubicacionActual}">@mdo</td>
-        <td th:text="${usuarios.localidad}">@mdo</td>
-
-    </tr>
-
-    </tbody>
-</table>
+        <thead class="table-success">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Email</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Localidad</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario, rowStat : ${usuarios}">
+            <th scope="row" th:text="${rowStat.index + 1}"></th>
+            <td th:text="${usuario.nombre}"></td>
+            <td th:text="${usuario.apellido}"></td>
+            <td th:text="${usuario.correoElectronico}"></td>
+            <td th:text="${usuario.ubicacionActual}"></td>
+            <td th:text="${usuario.localidad}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+
+</body>
+</html>
+
 
 </body>
 </html>

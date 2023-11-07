@@ -1,21 +1,26 @@
-package usuarios;
+package com.example.BiciMap.servicio;
 
-import com.example.BiciMap.modelo.Usuarios;
-import org.springframework.stereotype.Service;
+import com.example.BiciMap.modelo.Usuario;
 
-@Service
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
 public class ArbolUsuarios {
     public class NodoBST {
-        Usuarios usuario;
+        Usuario usuario;
         NodoBST izquierda;
         NodoBST derecha;
 
-        public NodoBST(Usuarios usuario) {
+        public NodoBST(Usuario usuario) {
             this.usuario = usuario;
             this.izquierda = null;
             this.derecha = null;
         }
     }
+    @Component
 
     public class BST {
         NodoBST raiz;
@@ -24,13 +29,14 @@ public class ArbolUsuarios {
             raiz = null;
         }
 
-        public void insertar(Usuarios usuario) {
+        public void insertar(Usuario usuario) {
             raiz = insertarRec(raiz, usuario);
+            System.out.println("Usuario insertado: " + usuario.getCorreoElectronico());
 
 
         }
 
-        private NodoBST insertarRec(NodoBST nodo, Usuarios usuario) {
+        private NodoBST insertarRec(NodoBST nodo, Usuario usuario) {
             if (nodo == null) {
                 nodo = new NodoBST(usuario);
                 return nodo;
@@ -44,12 +50,25 @@ public class ArbolUsuarios {
 
             return nodo;
         }
+        public List<Usuario> listarUsuarios() {
+            List<Usuario> usuariosList = new ArrayList<>();
+            listarUsuariosRec(raiz, usuariosList);
+            return usuariosList;
+        }
 
-        public Usuarios buscar(String correo) {
+        private void listarUsuariosRec(NodoBST nodo, List<Usuario> usuariosList) {
+            if (nodo != null) {
+                listarUsuariosRec(nodo.izquierda, usuariosList);
+                usuariosList.add(nodo.usuario);
+                listarUsuariosRec(nodo.derecha, usuariosList);
+            }
+        }
+
+        public Usuario buscar(String correo) {
             return buscarRec(raiz, correo);
         }
 
-        private Usuarios buscarRec(NodoBST nodo, String correo) {
+        private Usuario buscarRec(NodoBST nodo, String correo) {
             if (nodo == null) {
                 return null;
             }
@@ -65,11 +84,11 @@ public class ArbolUsuarios {
             return buscarRec(nodo.derecha, correo);
         }
 
-        public void actualizar(String correo, Usuarios nuevoUsuario) {
+        public void actualizar(String correo, Usuario nuevoUsuario) {
             raiz = actualizarRec(raiz, correo, nuevoUsuario);
         }
 
-        private NodoBST actualizarRec(NodoBST nodo, String correo, Usuarios nuevoUsuario) {
+        private NodoBST actualizarRec(NodoBST nodo, String correo, Usuario nuevoUsuario) {
             if (nodo == null) {
                 return nodo;
             }

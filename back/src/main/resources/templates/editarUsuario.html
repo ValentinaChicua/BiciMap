@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="nombre" name="nombre" value="Nombre Ejemplo" disabled>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" onclick="enableEdit('nombre')">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="apellido">Apellido:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="apellido" name="apellido" value="Apellido Ejemplo" disabled>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" onclick="enableEdit('apellido')">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="correoElectronico">Correo Electrónico:</label>
+            <input type="text" class="form-control" id="correoElectronico" name="correoElectronico" value="corrssrrrrrseo@gmail.com" disabled>
+        </div>
+
+        <div class="form-group">
+            <label for="ubicacionActual">Ubicación Actual:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="ubicacionActual" name="ubicacionActual" value="Ubicación Ejemplo" disabled>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" onclick="enableEdit('ubicacionActual')">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="localidad">Localidad:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="localidad" name="localidad" value="Localidad Ejemplo" disabled>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" onclick="enableEdit('localidad')">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="display: none;" id="save-button">Guardar Cambios</button>
+    </form>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    function enableEdit(fieldName) {
+        const field = document.getElementById(fieldName);
+        field.removeAttribute("disabled");
+        const saveButton = document.getElementById("save-button");
+        saveButton.style.display = "block";
+    }
+</script>
+</body>
+</html>

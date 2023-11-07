@@ -1,48 +1,35 @@
 package com.example.BiciMap.servicio;
 
-
-import com.example.BiciMap.interfaz.IUsuario;
-import com.example.BiciMap.interfazService.IUsuarioServicio;
+import com.example.BiciMap.modelo.Usuario;
 import com.example.BiciMap.modelo.Usuarios;
-import com.example.BiciMap.repositorio.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import usuarios.ArbolUsuarios;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class UsuarioService implements IUsuarioServicio {
+public class UsuarioService {
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private IUsuario data;
+    private ArbolUsuarios.BST arbolUsuarios;
 
-    @Override
-    public List<Usuarios> listar() {
-        return (List<Usuarios>) data.findAll();
+    public void insertarUsuario(Usuario usuario) {
+        arbolUsuarios.insertar(usuario);
     }
 
-    @Override
-    public Optional<Usuarios> listarId(int id) {
-        return Optional.empty();
+    public List<Usuario> listarUsuarios() {
+        return arbolUsuarios.listarUsuarios();
     }
 
-    @Override
-    public int save(Usuarios p) {
-        ArbolUsuarios arbolUsuarios = new ArbolUsuarios();
-        ArbolUsuarios.BST bst = arbolUsuarios.new BST();
-        bst.insertar(p);
-
-        return 1;
+    public Usuario buscarUsuario(String correo) {
+        return arbolUsuarios.buscar(correo);
     }
 
-
-    @Override
-    public void delete(int id) {
-
+    public void actualizarUsuario(String correo, Usuario nuevoUsuario) {
+        arbolUsuarios.actualizar(correo, nuevoUsuario);
     }
 
-
+    public void eliminarUsuario(String correo) {
+        arbolUsuarios.eliminar(correo);
+    }
 }
