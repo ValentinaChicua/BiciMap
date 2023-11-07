@@ -10,4 +10,6 @@ public interface IUsuarioServicio {
     public Optional<Usuarios> listarId(int id);
     public  int save(Usuarios p);
     public void delete(int id);
+
+
 }

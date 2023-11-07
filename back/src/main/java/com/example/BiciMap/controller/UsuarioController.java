@@ -27,6 +27,16 @@ public class UsuarioController {
         model.addAttribute("usuarios",usuarios);
         return "usuario";
     }
+
+    @PostMapping("/guardarUsuario")
+    public String guardarUsuario(Model model){
+
+        Usuarios usuario =new Usuarios();
+        usuarioService.save(usuario);
+        //List<Usuarios> usuarios=usuarioService.listar();
+        model.addAttribute("usuarios",usuario);
+        return "registro";
+    }
 }
 
 

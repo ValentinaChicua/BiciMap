@@ -7,6 +7,7 @@ import com.example.BiciMap.modelo.Usuarios;
 import com.example.BiciMap.repositorio.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import usuarios.ArbolUsuarios;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +31,13 @@ public class UsuarioService implements IUsuarioServicio {
 
     @Override
     public int save(Usuarios p) {
-        return 0;
+        ArbolUsuarios arbolUsuarios = new ArbolUsuarios();
+        ArbolUsuarios.BST bst = arbolUsuarios.new BST();
+        bst.insertar(p);
+
+        return 1;
     }
+
 
     @Override
     public void delete(int id) {
