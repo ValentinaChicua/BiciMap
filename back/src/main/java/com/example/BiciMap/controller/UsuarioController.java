@@ -25,18 +25,8 @@ public class UsuarioController {
         return "lista_usuarios"; // Asumiendo que tienes una vista llamada "lista_usuarios"
     }
 
-    @GetMapping("/registro")
-    public String mostrarFormularioRegistro(Model model) {
-        Usuarios usuario = new Usuarios();
-        model.addAttribute("usuario", usuario);
-        return "registro_usuario"; // Asumiendo que tienes una vista llamada "registro_usuario"
-    }
-    @GetMapping("/login")
-    public String login(Model model) {
-        UsuarioCredenciales usuarioC = new UsuarioCredenciales();
-        model.addAttribute("usuarioC", usuarioC);
-        return "login";
-    }
+
+
 
     @PostMapping("/guardarUsuario")
     public String guardarUsuario(@RequestParam("nombre") String nombre, @RequestParam("apellido") String apellido, @RequestParam("correoElectronico") String correoElectronico, @RequestParam("contraseña") String contraseña, @RequestParam("ubicacionActual") String ubicacionActual, @RequestParam("localidad") String localidad) {
@@ -76,14 +66,32 @@ public class UsuarioController {
         return "redirect:/usuarios/listar"; // Redirige a la lista de usuarios después de eliminar
     }
 
+    @GetMapping("/registro")
+    public String mostrarFormularioRegistro(Model model) {
+        Usuarios usuario = new Usuarios();
+        model.addAttribute("usuario", usuario);
+        return "registro_usuario"; // Asumiendo que tienes una vista llamada "registro_usuario"
+    }
+
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        UsuarioCredenciales usuarioC = new UsuarioCredenciales();
+        model.addAttribute("usuarioC", usuarioC);
+
+        return "login";
+    }
+
     @PostMapping("/verificarLogin")
     public String login1(@RequestParam("correoElectronico") String correo, @RequestParam("contraseña") String contrasena) {
         System.out.println(correo);
 
+
+
         if (usuarioService.verificarCredenciales(correo, contrasena)) {
             return "perfilUsuario";
         } else {
-            return "login";
+            return "redirect:/usuarios/registro";
         }
     }
 
