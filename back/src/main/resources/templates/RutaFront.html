@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiciMaps</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+
+        .custom-header {
+            background-color: #169213;
+
+            color: #fff;
+
+            padding: 10px;
+            /* Espaciado interno */
+        }
+
+
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+
+        .custom-input {
+            margin-bottom: 10px;
+        }
+
+
+        .bold-text {
+            font-weight: bold;
+            color: #000000;
+
+        }
+
+        /* Estilo personalizado para los botones verdes */
+        .custom-button {
+            background-color: #169213;
+            /* Color verde personalizado */
+            color: #fff;
+            /* Texto en color blanco */
+            margin-right: 10px;
+            /* Margen derecho entre botones */
+        }
+    </style>
+</head>
+
+<body>
+<!-- Encabezado verde con botón de retroceso -->
+<div class="custom-header">
+    <button class="btn btn-light" onclick="history.go(-1)">Retroceder</button>
+    <h1 class="text-center">Tu ruta</h1>
+</div>
+
+<!-- Mapa de OpenStreetMap -->
+<div id="map"></div>
+
+<!-- Contenedor para las etiquetas e inputs del usuario -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Desde</h2>
+            <div class="custom-input">
+                <label for="etiqueta1">Inicio ruta:</label>
+                <input type="text" id="etiqueta1" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>Hasta</h2>
+            <div class="custom-input">
+                <label for="etiqueta2">Fin ruta:</label>
+                <input type="text" id="etiqueta2" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Texto resaltado en negrilla y botones verdes en la parte inferior derecha -->
+<div class="container text-right mt-3">
+    <p class="bold-text">Casetas de Servicio disponibles en tu ruta</p>
+    <button class="btn custom-button">Ver Mapa</button>
+    <button class="btn custom-button">Iniciar Recorrido</button>
+</div>
+
+<!-- Enlace "¿Necesitas ayuda?" que te dirige a otra pestaña -->
+<a href="#ayuda" class="btn btn-link">¿Necesitas ayuda?</a>
+
+<!-- Enlace a la pestaña de ayuda -->
+<div id="ayuda">
+    <!-- Contenido de la pestaña de ayuda -->
+</div>
+
+<!-- Enlace para cargar Leaflet y OpenStreetMap -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+    let map = L.map('map').setView([4.638413449952397, -74.08805811325989], 14)
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // attribution: 'BiciMaps',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+
+    // A traves de las implementaciones de las Valentinas dada una direccion se transforma en coordenadas
+    // Marcador inicio de Ruta, recibe por paramemetro las coordenadas de inicio [latitud, longitud] dadas por el usuario
+    // L.marker([4.63201, -74.08616]).addTo(map).bindPopup("Inicio de la Ruta")
+
+    // // Marcador fin fr Ruta, recibe por paramemetro las coordenadas fin [latitud, longitud] dadas por el usuario
+    // L.marker([4.586788, -74.098995]).addTo(map).bindPopup("Casa con mi amor")
+
+
+    // Mostrar [latitud, longitud] en el mapa
+    map.on('click', onMapClick)
+    // Evento es donde se esta dando click en el mapa
+    function onMapClick(evento) {
+        alert("Posicion: " + evento.latlng)
+    }
+
+    // var ruta = L.polyline([[4.632051, -74.086234], [4.632901, -74.086186], [4.633863, -74.088986]]).addTo(map);
+</script>
+</body>
+
+</html>
