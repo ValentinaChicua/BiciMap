@@ -74,6 +74,14 @@ public class UsuarioController {
         model.addAttribute("usuario", usuario);
         return "registro_usuario"; // Asumiendo que tienes una vista llamada "registro_usuario"
     }
+    @GetMapping("/mapa")
+    public String prueba(Model model){
+        return  "mapaCiclovia";
+    }
+    @GetMapping("/ruta")
+    public String prueba1(Model model){
+        return  "RutaFront";
+    }
 
 
     @GetMapping("/login")
