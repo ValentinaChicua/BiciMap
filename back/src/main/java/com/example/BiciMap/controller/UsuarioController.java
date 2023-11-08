@@ -18,6 +18,8 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    private String correoGlobal;
+
     @GetMapping("/listar")
     public String listarUsuarios(Model model) {
         List<Usuario> usuarios = usuarioService.listarUsuarios();
@@ -82,14 +84,36 @@ public class UsuarioController {
         return "login";
     }
 
+
+
+    @GetMapping("/perfil")
+    public String perfilUsuario(Model model) {
+        System.out.println(correoGlobal +" si existe");
+        Usuario usuario = usuarioService.buscarUsuario(correoGlobal);
+
+        // Establece los valores del usuario en el modelo
+        model.addAttribute("nombre", usuario.getNombre());
+        model.addAttribute("apellido", usuario.getApellido());
+        model.addAttribute("correoElectronico", usuario.getCorreoElectronico());
+        model.addAttribute("ubicacionActual", usuario.getUbicacionActual());
+        model.addAttribute("localidad", usuario.getLocalidad());
+        System.out.println("Nombre: " + usuario.getNombre());
+        System.out.println("Apellido: " + usuario.getApellido());
+        return "perfilUsuario";
+    }
+
+
+
+
     @PostMapping("/verificarLogin")
     public String login1(@RequestParam("correoElectronico") String correo, @RequestParam("contraseña") String contrasena) {
         System.out.println(correo);
+        correoGlobal=correo;
 
 
 
         if (usuarioService.verificarCredenciales(correo, contrasena)) {
-            return "perfilUsuario";
+            return "redirect:/usuarios/perfil";
         } else {
             return "redirect:/usuarios/registro";
         }
