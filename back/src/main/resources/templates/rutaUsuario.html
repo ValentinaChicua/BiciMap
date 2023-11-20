@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiciMaps</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .custom-header {
+            background-color: #169213;
+
+            color: #fff;
+
+            padding: 10px;
+            /* Espaciado interno */
+        }
+
+
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+
+        .custom-input {
+            margin-bottom: 10px;
+        }
+
+
+        .bold-text {
+            font-weight: bold;
+            color: #000000;
+
+        }
+
+        /* Estilo personalizado para los botones verdes */
+        .custom-button {
+            background-color: #169213;
+            /* Color verde personalizado */
+            color: #fff;
+            /* Texto en color blanco */
+            margin-right: 10px;
+            /* Margen derecho entre botones */
+        }
+    </style>
+</head>
+
+<body>
+<!-- Encabezado verde con botón de retroceso -->
+<div class="custom-header">
+    <button class="btn btn-light" onclick="history.go(-1)">Retroceder</button>
+    <h1 class="text-center">Tu ruta</h1>
+</div>
+
+<!-- Mapa de OpenStreetMap -->
+<div id="map"></div>
+
+<!-- Contenedor para las etiquetas e inputs del usuario -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Desde</h2>
+            <div class="custom-input">
+                <label for="etiqueta1">Inicio ruta:</label>
+                <input type="text" id="etiqueta1" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>Hasta</h2>
+            <div class="custom-input">
+                <label for="etiqueta2">Fin ruta:</label>
+                <input type="text" id="etiqueta2" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Texto resaltado en negrilla y botones verdes en la parte inferior derecha -->
+<div class="container text-right mt-3">
+    <p class="bold-text">Casetas de Servicio disponibles en tu ruta</p>
+    <button class="btn custom-button">Ver Mapa</button>
+    <button class="btn custom-button">Iniciar Recorrido</button>
+</div>
+
+<!-- Enlace "¿Necesitas ayuda?" que te dirige a otra pestaña -->
+<a href="#ayuda" class="btn btn-link">¿Necesitas ayuda?</a>
+
+<!-- Enlace a la pestaña de ayuda -->
+<div id="ayuda">
+    <!-- Contenido de la pestaña de ayuda -->
+</div>
+
+<!-- Enlace para cargar Leaflet y OpenStreetMap -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+    const map = L.map('map').setView([4.638413449952397, -74.08805811325989], 14)
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // attribution: 'BiciMaps',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+
+    // A traves de las implementaciones de las Valentinas dada una direccion se transforma en coordenadas
+    // Marcador inicio de Ruta, recibe por paramemetro las coordenadas de inicio [latitud, longitud] dadas por el usuario
+    // L.marker([4.63201, -74.08616]).addTo(map).bindPopup("Inicio de la Ruta")
+
+    // // Marcador fin fr Ruta, recibe por paramemetro las coordenadas fin [latitud, longitud] dadas por el usuario
+    // L.marker([4.586788, -74.098995]).addTo(map).bindPopup("Casa con mi amor")
+
+
+    // Mostrar [latitud, longitud] en el mapa
+    map.on('click', onMapClick)
+
+    // Evento es donde se esta dando click en el mapa
+    function onMapClick(evento) {
+        alert("Posicion: " + evento.latlng)
+    }
+
+    // var ruta = L.polyline([[4.63201, -74.08616], [4.631008, -74.085526], [4.631794, -74.084335],
+    // [4.630639, -74.083525], [4.626714, -74.08095], [4.621672, -74.077367], [4.615919, -74.073381],
+    // [4.61539, -74.07308], [4.615181, -74.073086], [4.61355, -74.073907], [4.612513, -74.074395],
+    // [4.615181, -74.073086], [4.615181, -74.073086], [4.615181, -74.073086], [4.612513, -74.074395]]).addTo(map);
+
+    // Ruta de prueba en la construccion del mapeo de rutas
+    const jsonRuta = {
+        "hints": {
+            "visited_nodes.sum": 32,
+            "visited_nodes.average": 32
+        },
+        "info": {
+            "copyrights": [
+                "GraphHopper",
+                "OpenStreetMap contributors"
+            ],
+            "took": 1,
+            "road_data_timestamp": "2023-11-14T13:00:00Z"
+        },
+        "paths": [
+            {
+                "distance": 502.148,
+                "weight": 81.006137,
+                "time": 73474,
+                "transfers": 0,
+                "points_encoded": false,
+                "bbox": [
+                    -74.089174,
+                    4.631495,
+                    -74.086212,
+                    4.633875
+                ],
+                "points": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [
+                            -74.086212,
+                            4.632019
+                        ],
+                        [
+                            -74.086988,
+                            4.631495
+                        ],
+                        [
+                            -74.087807,
+                            4.632745
+                        ],
+                        [
+                            -74.087878,
+                            4.632802
+                        ],
+                        [
+                            -74.088057,
+                            4.632888
+                        ],
+                        [
+                            -74.089174,
+                            4.633308
+                        ],
+                        [
+                            -74.088998,
+                            4.633875
+                        ],
+                        [
+                            -74.088984,
+                            4.633869
+                        ]
+                    ]
+                },
+                "instructions": [
+                    {
+                        "distance": 103.924,
+                        "heading": 235.88,
+                        "sign": 0,
+                        "interval": [
+                            0,
+                            1
+                        ],
+                        "text": "Continue onto Carrera 37A",
+                        "time": 23383,
+                        "street_name": "Carrera 37A"
+                    },
+                    {
+                        "distance": 330.547,
+                        "sign": 2,
+                        "interval": [
+                            1,
+                            5
+                        ],
+                        "text": "Turn right onto Calle 25B",
+                        "time": 42499,
+                        "street_name": "Calle 25B"
+                    },
+                    {
+                        "distance": 65.977,
+                        "sign": 2,
+                        "interval": [
+                            5,
+                            6
+                        ],
+                        "text": "Turn right onto Avenida Carrera 40",
+                        "time": 7422,
+                        "street_name": "Avenida Carrera 40"
+                    },
+                    {
+                        "distance": 1.7,
+                        "sign": 2,
+                        "interval": [
+                            6,
+                            7
+                        ],
+                        "text": "Turn right onto Avenida Calle 26",
+                        "time": 170,
+                        "street_name": "Avenida Calle 26"
+                    },
+                    {
+                        "distance": 0,
+                        "sign": 4,
+                        "last_heading": 110.4548037453201,
+                        "interval": [
+                            7,
+                            7
+                        ],
+                        "text": "Arrive at destination",
+                        "time": 0,
+                        "street_name": ""
+                    }
+                ],
+                "legs": [],
+                "details": {
+                    "surface": [
+                        [
+                            0,
+                            6,
+                            "asphalt"
+                        ],
+                        [
+                            6,
+                            7,
+                            "concrete"
+                        ]
+                    ],
+                    "road_class": [
+                        [
+                            0,
+                            1,
+                            "residential"
+                        ],
+                        [
+                            1,
+                            5,
+                            "tertiary"
+                        ],
+                        [
+                            5,
+                            6,
+                            "secondary"
+                        ],
+                        [
+                            6,
+                            7,
+                            "primary"
+                        ]
+                    ]
+                },
+                "ascend": 2.1309814453125,
+                "descend": 3.0880126953125,
+                "snapped_waypoints": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [
+                            -74.086212,
+                            4.632019
+                        ],
+                        [
+                            -74.088984,
+                            4.633869
+                        ]
+                    ]
+                }
+            }
+        ]
+    }
+
+
+    // Peticion Open Street Maps
+    // const query = new URLSearchParams({
+    //     key: '566ed7a9-5e2d-4767-bba4-215341cd0c38'
+    // }).toString();
+
+    // const resp = await fetch(
+    //     `https://graphhopper.com/api/1/route?${query}`,
+    //     {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             points: [
+    //                 [   -74.086234,
+    //                     4.632051],
+    //                 [   -74.088986,
+    //                     4.633863]
+    //             ],
+    //             point_hints: [
+    //                 'Lindenschmitstraße',
+    //                 'Thalkirchener Str.'
+    //             ],
+    //             snap_preventions: [
+    //                 'motorway',
+    //                 'ferry',
+    //                 'tunnel'
+    //             ],
+    //             details: ['road_class', 'surface'],
+    //             vehicle: 'bike',
+    //             locale: 'en',
+    //             instructions: true,
+    //             calc_points: true,
+    //             points_encoded: false
+    //         })
+    //     }
+    // );
+
+    // const data = await resp.json();
+    // console.log(data);
+
+    // const query = new URLSearchParams({
+    //     key: '566ed7a9-5e2d-4767-bba4-215341cd0c38'
+    // }).toString();
+
+    // fetch(
+    //     `https://graphhopper.com/api/1/route?${query}`,
+    //     {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             points: [
+    //                 [-74.086234, 4.632051],
+    //                 [-74.088986, 4.633863]
+    //             ],
+    //             point_hints: ['Lindenschmitstraße', 'Thalkirchener Str.'],
+    //             snap_preventions: ['motorway', 'ferry', 'tunnel'],
+    //             details: ['road_class', 'surface'],
+    //             vehicle: 'bike',
+    //             locale: 'en',
+    //             instructions: true,
+    //             calc_points: true,
+    //             points_encoded: false
+    //         })
+    //     }
+    // )
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log(data);
+    //     })
+    //     .catch(error => {
+    //         console.error('Error en la petición:', error);
+    //     });
+
+
+    // // Extraer las coordenadas de la ruta
+    // const coordinates = data.paths[0].points.coordinates.map(coord => [coord[1], coord[0]]);
+
+
+    // // Crear una polilínea con Leaflet
+    // const rutaPolyline = L.polyline(coordinates, { color: 'blue' }).addTo(map);
+
+    // // Ajustar el zoom del mapa para mostrar la ruta completa
+    // map.fitBounds(rutaPolyline.getBounds());
+
+    // Luego de recibir el inicio de la ruta y el fin de la ruta se mapea esa direccion a latititud y longitud para hacer la posterior solicitud a la api
+    const iniciolong = -74.086234;
+    const iniciolat = 4.632051;
+
+    const finlong = -72.913347;
+    const finlat = 5.99047;
+
+    L.marker([iniciolat, iniciolong]).addTo(map).bindPopup("Inicio de la Ruta");
+
+    L.marker([finlat, finlong]).addTo(map).bindPopup("Fin de la Ruta");
+
+
+    // Peticion a la api de GraphHopper, se basa en la documentacion oficial
+    const query = new URLSearchParams({
+        key: '566ed7a9-5e2d-4767-bba4-215341cd0c38'  // Clave api GraphHopper dominio Eduard Patiño
+    }).toString();
+
+    // Se hace la peticion a la api que devuelve un json con toda la informacion de la ruta
+    fetch(
+        `https://graphhopper.com/api/1/route?${query}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                points: [
+                    [iniciolong, iniciolat],
+                    [finlong, finlat]
+                ],
+                point_hints: ['Lindenschmitstraße', 'Thalkirchener Str.'],
+                snap_preventions: ['motorway', 'ferry', 'tunnel'],
+                details: ['road_class', 'surface'],
+                vehicle: 'bike', // se puede esopecificar a la api de GraphHopper el tipo de vehiculo que seguira la ruta, para el proyecto sera bicicleta
+                locale: 'en',
+                instructions: true,
+                calc_points: true,
+                points_encoded: false
+            })
+        }
+    )
+        .then(response => response.json())
+        // La respuesta de la api en formato JSON la asignamos a una variable llamada data
+        .then(data => {
+            // Extraer las coordenadas de la ruta que vienen dadas en el JSON con la clave asociada "coordinates"
+            const coordinates = data.paths[0].points.coordinates.map(coord => [coord[1], coord[0]]);
+
+            // Crear una polilínea con Leaflet
+            const rutaPolyline = L.polyline(coordinates, {color: '#16B6DE'}).addTo(map);
+
+            // Ajustar el zoom del mapa para mostrar la ruta completa
+            map.fitBounds(rutaPolyline.getBounds());
+        })
+        .catch(error => {
+            console.error('Error en la petición:', error);
+        });
+
+</script>
+</body>
+
+</html>
+
