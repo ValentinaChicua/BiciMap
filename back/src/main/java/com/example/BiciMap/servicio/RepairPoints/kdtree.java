@@ -1,20 +1,27 @@
 package com.example.BiciMap.servicio.RepairPoints;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-@Service
+@Component
 public class kdtree {
     private static final int K = 2;
     public  nodo root;
     public kdtree() {
         root = null;
     }
-    public void insert(double[] coordenada) {
-        root = insert(root,coordenada,0);
+    public void insertarRutaDesdeCoordenada(Coordenada coordenada) {
+        double latitud = coordenada.getLatitud();
+        double longitud = coordenada.getLongitud();
+        double[] coordenadaArray = {latitud, longitud};
+        root = insert(root, coordenadaArray, 0);
     }
+
     public nodo insert(nodo node, double[] coordenada, int depth) {
         if (node == null) {
             return new nodo(coordenada, depth);
@@ -28,33 +35,25 @@ public class kdtree {
         }
         return node;
     }
-    public List<double[]> findPointsWithinDistance(double[] target, double maxDistance) {
-        List<double[]> result = new ArrayList<>();
-        findPointsWithinDistance(root, target, maxDistance, result, 0);
-        return result;
+    public List<double[]> obtenerPuntosCercanos(double latitud, double longitud, double radio) {
+        List<double[]> puntosCercanos = new ArrayList<>();
+        obtenerPuntosCercanos(root, latitud, longitud, radio, puntosCercanos);
+        return puntosCercanos;
     }
 
-    private void findPointsWithinDistance(nodo node, double[] target, double maxDistance, List<double[]> result, int depth) {
-        if (node == null) {
-            return;
-        }
-
-        double distance = haversine(node.coordenada[0], node.coordenada[1], target[0], target[1]);
-
-        if (distance <= maxDistance) {
-            result.add(node.coordenada);
-        }
-
-        int axis = depth % K;
-        double axisDistance = node.coordenada[axis] - target[axis];
-
-        if (axisDistance * axisDistance <= maxDistance * maxDistance) {
-            findPointsWithinDistance(node.left, target, maxDistance, result, depth + 1);
-            findPointsWithinDistance(node.right, target, maxDistance, result, depth + 1);
-        } else if (axisDistance < 0) {
-            findPointsWithinDistance(node.right, target, maxDistance, result, depth + 1);
-        } else {
-            findPointsWithinDistance(node.left, target, maxDistance, result, depth + 1);
+    private void obtenerPuntosCercanos(nodo node, double latitud, double longitud, double radio, List<double[]> puntosCercanos) {
+        if (node != null) {
+            double distancia = haversine(latitud, longitud, node.coordenada[0], node.coordenada[1]);
+            if (distancia <= radio) {
+                puntosCercanos.add(node.coordenada);
+            }
+            // Explorar subárboles solo si es necesario
+            if (node.left != null && (node.coordenada[0] - latitud) >= -radio) {
+                obtenerPuntosCercanos(node.left, latitud, longitud, radio, puntosCercanos);
+            }
+            if (node.right != null && (node.coordenada[0] - latitud) <= radio) {
+                obtenerPuntosCercanos(node.right, latitud, longitud, radio, puntosCercanos);
+            }
         }
     }
     public static double haversine(double lat1, double lon1, double lat2, double lon2) {

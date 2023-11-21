@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UsuarioService {
+public class  UsuarioService {
 
     @Autowired
     private ArbolUsuarios.BST arbolUsuarios;
