@@ -398,6 +398,7 @@
     const finlong = -72.913347;
     const finlat = 5.99047;
 
+
     L.marker([iniciolat, iniciolong]).addTo(map).bindPopup("Inicio de la Ruta");
 
     L.marker([finlat, finlong]).addTo(map).bindPopup("Fin de la Ruta");
@@ -424,7 +425,7 @@
                 point_hints: ['Lindenschmitstraße', 'Thalkirchener Str.'],
                 snap_preventions: ['motorway', 'ferry', 'tunnel'],
                 details: ['road_class', 'surface'],
-                vehicle: 'bike', // se puede esopecificar a la api de GraphHopper el tipo de vehiculo que seguira la ruta, para el proyecto sera bicicleta
+                vehicle: 'bike', // se puede especificar a la api de GraphHopper el tipo de vehiculo que seguira la ruta, para el proyecto sera bicicleta
                 locale: 'en',
                 instructions: true,
                 calc_points: true,
