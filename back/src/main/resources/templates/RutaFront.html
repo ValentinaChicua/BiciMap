@@ -80,7 +80,8 @@
 
 <!-- Texto resaltado en negrilla y botones verdes en la parte inferior derecha -->
 <div class="container text-right mt-3">
-    <p class="bold-text">Casetas de Servicio disponibles en tu ruta</p>
+    <button id="puntosReparacionButton" class="btn custom-button">Puntos de Reparación</button>
+    <button id="insertarCoordenadasBtn" class="btn btn-success">Insertar Coordenadas</button>
     <button class="btn custom-button">Ver Mapa</button>
     <button class="btn custom-button">Iniciar Recorrido</button>
 </div>
@@ -449,6 +450,103 @@
             console.error('Error en la petición:', error);
         });
 
+    const insertarCoordenadasBtn = document.getElementById('insertarCoordenadasBtn');
+    insertarCoordenadasBtn.addEventListener('click', function () {
+        // Coordenadas de ejemplo, puedes ajustarlas según tus necesidades
+        const coordenadasBogota = [
+            {"latitud": 4.69553, "longitud": -74.12453},
+            {"latitud": 4.64671, "longitud": -74.09871},
+
+        ];
+
+        // Enviar las coordenadas al servidor
+        fetch('/puntosReparacion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(coordenadasBogota),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Respuesta del servidor:', data);
+
+            })
+            .catch(error => {
+                console.error('Error al insertar coordenadas:', error);
+            });
+    });
+
+    let marcadoresVisibles = false;
+    let marcadorInicio, marcadorFin;
+
+    function insertarCoordenadasYBuscarPuntos() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const coordenadasUsuario = {
+                    latitud: position.coords.latitude,
+                    longitud: position.coords.longitude,
+                };
+
+                // Insertar coordenadas
+                fetch('/puntosReparacion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify([coordenadasUsuario]),
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log('Coordenadas insertadas exitosamente:', data);
+
+                        // Obtener puntos cercanos
+                        return fetch('/obtenerPuntosCercanos', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(coordenadasUsuario),
+                        });
+                    })
+                    .then(response => response.json())
+                    .then(puntosCercanos => {
+                        // Limpiar marcadores existentes en el mapa solo si ya estaban visibles
+                        if (marcadoresVisibles) {
+                            map.eachLayer(layer => {
+                                if (layer instanceof L.Marker && layer !== marcadorInicio && layer !== marcadorFin) {
+                                    map.removeLayer(layer);
+                                }
+                            });
+                            marcadoresVisibles = false; // Marcadores eliminados
+                        } else {
+                            // Agregar marcadores para los puntos cercanos con el icono rojo
+                            for (const punto of puntosCercanos) {
+                                L.marker(punto).addTo(map).bindPopup("Punto Cercano");
+                            }
+
+                            // Almacenar marcadores de inicio y fin por separado
+                            marcadorInicio = L.marker([iniciolat, iniciolong]).addTo(map).bindPopup("Inicio de la Ruta");
+                            marcadorFin = L.marker([finlat, finlong]).addTo(map).bindPopup("Fin de la Ruta");
+
+                            marcadoresVisibles = true; // Marcadores agregados
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al realizar la operación:', error);
+                    });
+            }, function (error) {
+                console.error('Error al obtener la ubicación:', error.message);
+            });
+        } else {
+            console.error('Geolocalización no es compatible en este navegador.');
+        }
+    }
+
+    // Evento al hacer clic en el botón de puntos de reparación
+    document.getElementById('puntosReparacionButton').addEventListener('click', function () {
+        insertarCoordenadasYBuscarPuntos();
+    });
 </script>
 </body>
 
