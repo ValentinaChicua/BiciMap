@@ -1,5 +1,5 @@
 package centroDeAyuda;
-/*
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -92,8 +92,8 @@ public class MinHeap {
         }
     }
     public void enviarCorreo(HelpRequest solicitud, String destinatario) {
-        final String usuario = "bicimapsun@gmail.com"; // Cambia esto por tu dirección de correo electrónico
-        final String contraseña = "lmtc ircv fiws enhf"; // Cambia esto por tu contraseña
+        final String usuario = "bicimapsun2023@gmail.com"; // Cambia esto por tu dirección de correo electrónico
+        final String contraseña = "etcv bqsz zfsj itbp"; // Cambia esto por tu contraseña
 
         Properties propiedades = new Properties();
         propiedades.put("mail.smtp.host", "smtp.gmail.com");
@@ -126,4 +126,3 @@ public class MinHeap {
 
 
 }
-*/
