@@ -46,7 +46,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version> <!-- Asegúrate de usar la versión más reciente disponible -->
+		</dependency>
 
 		<dependency>
 			<groupId>com.vaadin.external.google</groupId>
