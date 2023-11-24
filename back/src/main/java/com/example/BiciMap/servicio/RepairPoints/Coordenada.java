@@ -1,8 +1,8 @@
 package com.example.BiciMap.servicio.RepairPoints;
 
 public class Coordenada {
-    private double latitud;
-    private double longitud;
+    public double latitud;
+    public double longitud;
 
     public Coordenada() {
 
