@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Rectángulos Horizontales Centrados</title>
+    <style>
+        /* Estilos adicionales para los botones rectangulares */
+        .rectangular-button {
+            display: block;
+            width: 100%;
+            text-align: left; /* Alineación del texto a la izquierda */
+            padding: 10px; /* Ajusta el relleno según sea necesario */
+            margin-bottom: 10px; /* Ajusta el margen inferior según sea necesario */
+            border: 2px solid #169213; /* Borde verde */
+            border-radius: 0; /* Bordes rectos para un aspecto rectangular */
+            background-color: #fff; /* Fondo blanco */
+            color: #169213; /* Texto verde */
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #169213;">
+    <a class="navbar-brand" href="#" style="color: white;">Bicimap</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/ruta" style="color: white;">Tu ruta</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/mapa" style="color: white;">Mapa Ciclovia</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/registro" style="color: white;">Registrate</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/tramos" style="color: white;">Tramos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/ayuda" style="color: white;">Centro de ayuda</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <!-- Lado Izquierdo -->
+        <div class="col-md-6">
+            <div class="text-center">
+                <!-- Botones Rectangulares -->
+                <button class="rectangular-button">Norte 1 Boyacá Norte</button>
+                <button class="rectangular-button">Norte 2 Av. Pepe Sierra y Av. Cordoba</button>
+                    <button class="rectangular-button">Norte 3 Carrera 7 Norte</button>
+                <button class="rectangular-button">Norte 4 Carrera 9, Calle 147 y Calle 170</button>
+                <button class="rectangular-button">Norte 5 Calle 72 y Carrera 60</button>
+                <button class="rectangular-button">Centro 1 Boyacá Sur</button>
+                <button class="rectangular-button">Centro 2 Carrera 50</button>
+            </div>
+        </div>
+
+        <!-- Lado Derecho -->
+        <div class="col-md-6">
+            <div class="text-center">
+                <!-- Botones Rectangulares -->
+                <button class="rectangular-button">Centro 3 Carrera 7 Sur</button>
+                <button class="rectangular-button">Centro 4 Calle 26 Oriental</button>
+                <button class="rectangular-button">Centro 5 Calle 26 Occidental</button>
+                <button class="rectangular-button">Centro 6 Parkway y Parque Nacional</button>
+                <button class="rectangular-button">Sur 1 Bosa conexión Soacha</button>
+                <button class="rectangular-button">Sur 2 Yomasa</button>
+                <button class="rectangular-button">Sur 3 Calle 17 Sur y Calle 39 Sur</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
