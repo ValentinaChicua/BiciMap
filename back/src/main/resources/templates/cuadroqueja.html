@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Solicitud</title>
+    <style>
+        /* Estilos para la franja superior */
+        .top-bar {
+            background-color: #169213;
+            height: 50px;
+            width: 100%;
+        }
+        /* Estilos para el cuadro */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff; /* Color de fondo */
+        }
+
+        /* Estilos para el cuadro de texto */
+        textarea {
+            width: 70%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #169213; /* Grosor y color del borde */
+            border-radius: 10px; /* Borde redondeado */
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para la etiqueta */
+        label {
+            display: block;
+            font-size: 18px;
+            color: #169213; /* Color del texto */
+            margin-bottom: 10px;
+            text-align: center; /* Centrado del texto */
+        }
+
+        /* Estilos para el botón */
+        input[type="submit"] {
+            background-color: #169213; /* Color de fondo del botón */
+            color: #fff; /* Color del texto del botón */
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px; /* Borde redondeado */
+            cursor: pointer;
+        }
+
+        /* Estilos para el cuadro emergente */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #169213; /* Color de fondo */
+            padding: 20px;
+            border: 1px solid #fff; /* Borde */
+            z-index: 1000;
+            color: #fff; /* Color del texto */
+            border-radius: 10px; /* Bordes redondeados */
+            text-align: center; /* Centrar el contenido */
+        }
+
+        /* Estilos para el botón en el cuadro emergente */
+        .modal button {
+            background-color: #fff; /* Color de fondo del botón */
+            color: #169213; /* Color del texto del botón */
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #169213;">
+    <a class="navbar-brand" href="#" style="color: white;">Bicimap</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/ruta" style="color: white;">Tu ruta</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/mapa" style="color: white;">Mapa Ciclovia</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/registro" style="color: white;">Registrate</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/tramos" style="color: white;">Tramos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/ayuda" style="color: white;">Centro de ayuda</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="top-bar"></div> <!-- Franja superior -->
+<form action="/enviarSolicitud" method="post" id="solicitudForm">
+    <input type="hidden" id="tipoSolicitud" name="tipoSolicitud" value="">
+    <input type="hidden" id="descripcion" name="description" value="">
+
+    <label for="descripcionInput">Descripción de la solicitud:</label>
+    <textarea id="descripcionInput" name="descripcion" rows="6" cols="50"></textarea>
+
+    <input type="submit" value="Enviar Solicitud">
+</form>
+
+<!-- Div para el mensaje emergente -->
+<div id="modal" class="modal">
+    <p>Su solicitud fue enviada correctamente.</p>
+    <button onclick="enviarOtraSolicitud()">Enviar otra solicitud</button>
+</div>
+
+<script>
+    const form = document.getElementById('solicitudForm');
+    const tipoSolicitudInput = document.getElementById('tipoSolicitud');
+    const descripcionInput = document.getElementById('descripcionInput');
+
+    // Obtener el tipo de solicitud de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const tipoSolicitud = urlParams.get('solicitud');
+    tipoSolicitudInput.value = tipoSolicitud;
+
+    // Agregar evento 'submit' al formulario
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const descripcion = descripcionInput.value;
+
+        // Envía el tipo de solicitud y la descripción al controlador
+        fetch('/enviarSolicitud', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tipoSolicitud: tipoSolicitud, description: descripcion }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const modal = document.getElementById('modal');
+                    modal.style.display = 'block';
+                } else {
+                    console.error('Error al enviar la solicitud');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    function enviarOtraSolicitud() {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'none';
+        window.location.href = '/tiposSolicitud'; // Redirigir a la página con los tipos de solicitud
+    }
+</script>
+</body>
+</html>

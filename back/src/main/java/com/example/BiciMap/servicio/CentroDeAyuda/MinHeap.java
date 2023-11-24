@@ -1,12 +1,15 @@
-package centroDeAyuda;
+package com.example.BiciMap.servicio.CentroDeAyuda;
 
+import org.springframework.stereotype.Component;
+
+import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-
+@Component
 public class MinHeap {
-    private HelpRequest[]heap;
+    private HelpRequest[] heap;
     private int size;
     private int capacity;
 
@@ -53,7 +56,7 @@ public class MinHeap {
 
     public void printHeap() {
         for (int i = 0; i < size; i++) {
-            System.out.print("prioridad "+heap[i].priority+" mensaje: "+heap[i].description + " ");
+            System.out.print("prioridad " + heap[i].priority + " mensaje: " + heap[i].description + " ");
         }
         System.out.println();
     }
@@ -91,6 +94,7 @@ public class MinHeap {
             minHeapify(smallest);
         }
     }
+
     public void enviarCorreo(HelpRequest solicitud, String destinatario) {
         final String usuario = "bicimapsun2023@gmail.com"; // Cambia esto por tu dirección de correo electrónico
         final String contraseña = "etcv bqsz zfsj itbp"; // Cambia esto por tu contraseña
@@ -121,8 +125,4 @@ public class MinHeap {
             e.printStackTrace();
         }
     }
-
-
-
-
 }
