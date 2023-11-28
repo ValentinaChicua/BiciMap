@@ -60,7 +60,7 @@
                 <button class="rectangular-button">Norte 4 Carrera 9, Calle 147 y Calle 170</button>
                 <button class="rectangular-button">Norte 5 Calle 72 y Carrera 60</button>
                 <button class="rectangular-button">Centro 1 Boyacá Sur</button>
-                <button class="rectangular-button">Centro 2 Carrera 50</button>
+                <button id="Centro2" class="rectangular-button">Centro 2 Carrera 50</button>
             </div>
         </div>
 
@@ -97,6 +97,25 @@
                 // Verifica que coordenadas es un array antes de continuar
                 if (Array.isArray(coordenadas)) {
                     window.location.href = '/usuarios/mapaSur3?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('Centro2').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Centro2')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaCentro2?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
                 } else {
                     console.error('Las coordenadas no son un array:', coordenadas);
                 }
