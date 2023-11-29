@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Incluye Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Otras etiquetas del encabezado -->
+  <style>
+    body {
+      margin: 0; /* Elimina el margen predeterminado del cuerpo de la página */
+      padding: 0; /* Elimina el relleno predeterminado del cuerpo de la página */
+    }
+    #map-container {
+      position: absolute;
+      top: 50px; /* Espaciado en la parte superior del contenedor del mapa */
+      left: 50px; /* Espaciado en el lado izquierdo del contenedor del mapa */
+      bottom: 50px; /* Espaciado en la parte inferior del contenedor del mapa */
+      right: 50px; /* Espaciado en el lado derecho del contenedor del mapa */
+      transition: transform 0.5s; /* Agrega una transición suave para la rotación */
+    }
+    #retroceder-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000; /* Asegura que el botón esté sobre el mapa */
+      background-color: green; /* Cambia el color del botón a verde */
+      color: white; /* Cambia el color del texto del botón a blanco */
+    }
+    #map {
+      height: 100%; /* Ajusta la altura del mapa para que ocupe todo el contenedor */
+      width: 100%; /* Ajusta el ancho del mapa para que ocupe todo el contenedor */
+    }
+  </style>
+</head>
+<body>
+<div id="retroceder-btn" class="btn btn-primary" onclick="retrocederTramos()">Retroceder a Tramos</div>
+<div id="map-container">
+  <!-- Contenedor para el mapa -->
+  <div id="map"></div>
+</div>
+
+<script>
+  const bogota = { latitud: 4.609710, longitud: -74.081749 };
+
+  // Obtén las coordenadas de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const coordenadasParam = urlParams.get('coordenadas');
+  const coordenadas = JSON.parse(decodeURIComponent(coordenadasParam));
+
+  // Crea un mapa con Leaflet centrado en Bogotá
+  var map = L.map('map').setView([bogota.latitud, bogota.longitud], 50);
+
+  // Agrega una capa de mapa base (OpenStreetMap)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Crea una línea de ruta con las coordenadas
+  const ruta = L.polyline(coordenadas.map(coordenada => [coordenada.longitud, coordenada.latitud]), { color: 'red' }).addTo(map);
+
+  // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+
+
+  // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+  const bounds = ruta.getBounds();
+  map.fitBounds(bounds);
+
+  // Función para retroceder a la página de tramos
+  function retrocederTramos() {
+    window.location.href = '/usuarios/tramos';
+  }
+</script>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
