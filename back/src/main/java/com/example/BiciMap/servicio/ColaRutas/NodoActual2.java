@@ -1,4 +1,4 @@
-package rutas.segundaEntrega;
+package com.example.BiciMap.servicio.ColaRutas;
 
 public class NodoActual2 {
     String iniDireccion;
@@ -21,9 +21,4 @@ public class NodoActual2 {
         next = null;
     }
 }
-
-
-
-
-
 

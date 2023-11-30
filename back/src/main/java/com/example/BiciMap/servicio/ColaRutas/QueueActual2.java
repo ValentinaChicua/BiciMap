@@ -1,5 +1,5 @@
-package rutas.segundaEntrega;
-/*
+package com.example.BiciMap.servicio.ColaRutas;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -7,9 +7,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
-
+@Component
 public class QueueActual2 {
     NodoActual2 head, rear;
     int size;
@@ -136,5 +137,3 @@ public class QueueActual2 {
         }
     }
 }
-
-*/
