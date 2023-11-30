@@ -1,18 +1,20 @@
 package com.example.BiciMap.controller;
 
+import com.example.BiciMap.servicio.ColaRutas.QueueActual2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import rutas.primeraEntrega.*;
+
+
 
 @Controller
 @RequestMapping("/rutas")
 public class RutasController {
-    private final Queue queue = new Queue();
+    private final QueueActual2 queue = new QueueActual2();
     @PostMapping("/agregar")
-    public void agregarRuta(@RequestParam("iniDireccion") String iniDireccion, @RequestParam("finDireccion") String finDireccion) {
+    public void agregarRuta(@RequestParam("iniDireccion") String iniDireccion, @RequestParam("finDireccion") String finDireccion) throws Exception {
         queue.Push(iniDireccion, finDireccion);
 
     }
