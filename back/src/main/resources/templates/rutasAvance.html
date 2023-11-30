@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <title>OpenStreetMap Route</title>
 </head>
 <body>
 <div id="map" style="height: 500px;"></div>
 <script>
+    // Obtener las coordenadas del usuario y la coordenada más cercana del HTML anterior
+    const urlParams = new URLSearchParams(window.location.search);
+    const latitudUsuario = parseFloat(urlParams.get('latitudUsuario'));
+    const longitudUsuario = parseFloat(urlParams.get('longitudUsuario'));
+    const latitudCercana = parseFloat(urlParams.get('latitudCercana'));
+    const longitudCercana = parseFloat(urlParams.get('longitudCercana'));
+
+
+
     const calle50 = {
         "coordinates": [
             [
@@ -3395,10 +3406,12 @@
     // const coordinatesAvCarrera15 = cicloviaAvCarrera15.coordinates;
 
 
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(mymap);
+
+
+
     const rutaCicloviaCalle26Oriental =   L.polyline(coordinates26Oriental.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(mymap);
     const rutaCicloviaCalle26Occidental =   L.polyline(coordinates26Occidental.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(mymap);
     const rutaCicloviaCalle50 =   L.polyline(coordinatesCalle50.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(mymap);
@@ -3411,6 +3424,20 @@
     const rutaAvPepeSierra = L.polyline(coordinatesAvPepeSierra.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(mymap);
     const rutaCalle147  = L.polyline(coordinatesCalle147.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(mymap);
     const rutaAvCarrera15 = L.polyline(coordinatesAvCarrera15.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(mymap);
+
+    // Ruta enrutada con OSRM
+    var control = L.Routing.control({
+        waypoints: [
+            L.latLng(latitudUsuario, longitudUsuario),
+            L.latLng(longitudCercana, latitudCercana)
+        ],
+        routeWhileDragging: true,
+        show: true,// Oculta el cuadro de diálogo de instrucciones
+
+    }).addTo(mymap);
+
+
+
 
 
 </script>

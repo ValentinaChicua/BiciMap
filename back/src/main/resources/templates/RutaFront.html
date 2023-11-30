@@ -4,11 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiciMaps</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Seleccionar Tramo y Redireccionar a Prueba</title>
+    <!-- Agrega el script de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Agrega el script de Leaflet Routing Machine -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <!-- Agrega Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <style>
         .custom-header {
             background-color: #169213;
@@ -45,10 +52,29 @@
             margin-right: 10px;
             /* Margen derecho entre botones */
         }
+        /* Estilo para el botón desplegable */
+        .custom-dropdown {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .custom-dropdown .btn {
+            background-color: #fff;
+            color: #169213;
+            border: 2px solid #169213;
+        }
+
+        .custom-dropdown .btn:hover {
+            background-color: #169213;
+            color: #fff;
+        }
     </style>
 </head>
 
 <body>
+
+
 <!-- Encabezado verde con botón de retroceso -->
 <div class="custom-header">
     <button class="btn btn-light" onclick="history.go(-1)">Retroceder</button>
@@ -77,11 +103,22 @@
         </div>
     </div>
 </div>
-
+<!-- Botón desplegable para seleccionar el tramo -->
+<div class="container text-left mt-3">
+    <div class="dropdown d-inline-block">
+        <button class="btn btn-outline-success" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            Seleccionar Tramo
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="tramosDropdown">
+            <!-- Aquí se llenarán los tramos dinámicamente desde JavaScript -->
+        </div>
+    </div>
+</div>
 <!-- Texto resaltado en negrilla y botones verdes en la parte inferior derecha -->
 <div class="container text-right mt-3 ">
             <button class="btn custom-button">Ver Mapa</button>
-            <button class="btn custom-button">Iniciar Recorrido</button>
+            <button class="btn btn-success" id="iniciarRecorrido">Iniciar Recorrido</button>
 </div>
 <div class="container text-right mt-3 ">
     <button id="puntosReparacionButton" class="btn custom-button">Puntos de Reparación</button>
@@ -103,6 +140,106 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+
+
+
+    let tramoSeleccionado;
+    // Puedes cargar dinámicamente los tramos desde tu servidor
+    const tramos = ["Norte1", "Norte2", "Norte3", "Norte4", "Norte5", "Centro1", "Centro2", "Centro3", "Centro4", "Centro5", "Centro6", "Sur1", "Sur2", "Sur3"];
+
+    // Función para llenar el botón desplegable con los tramos
+    function llenarTramosDropdown() {
+        const tramosDropdown = document.getElementById("tramosDropdown");
+
+        tramos.forEach(tramo => {
+            const tramoButton = document.createElement("button");
+            tramoButton.className = "dropdown-item";
+            tramoButton.type = "button";
+            tramoButton.innerText = tramo;
+            tramoButton.addEventListener("click", function () {
+                tramoSeleccionado = tramo;
+            });
+            tramosDropdown.appendChild(tramoButton);
+        });
+    }
+
+    // Llama a la función para llenar el botón desplegable
+    llenarTramosDropdown();
+
+    // Evento para iniciar el recorrido
+    document.getElementById('iniciarRecorrido').addEventListener('click', function () {
+        // Obtener las coordenadas del usuario (puedes usar geolocalización)
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const latitudUsuario = position.coords.latitude;
+            const longitudUsuario = position.coords.longitude;
+
+            // Realizar la solicitud AJAX al endpoint del controlador
+            fetch(`/obtenerCoordenadasTramo/${tramoSeleccionado}`)
+                .then(response => response.json())
+                .then(coordenadas => {
+                    // Encontrar la coordenada más cercana
+                    const coordenadaCercana = encontrarCoordenadaCercana(latitudUsuario, longitudUsuario, coordenadas);
+
+                    // Mostrar las coordenadas en la consola
+                    console.log('Coordenadas del usuario:', latitudUsuario, longitudUsuario);
+                    console.log('Coordenada más cercana:', coordenadaCercana);
+
+                    // Redireccionar a la página 'prueba' con las coordenadas en el URL
+                    if (coordenadaCercana) {
+                        const url = `/usuarios/ruta/iniciarRecorrido?latitudUsuario=${latitudUsuario}&longitudUsuario=${longitudUsuario}&latitudCercana=${coordenadaCercana.latitud}&longitudCercana=${coordenadaCercana.longitud}`;
+                        window.location.href = url;
+                    } else {
+                        console.error('No se pudo encontrar la coordenada más cercana.');
+                    }
+                })
+                .catch(error => console.error('Error al obtener las coordenadas del tramo:', error));
+        });
+        });
+
+    // Función para encontrar la coordenada más cercana
+    function encontrarCoordenadaCercana(latitudUsuario, longitudUsuario, coordenadas) {
+        let coordenadaCercana = null;
+        let distanciaMinima = Infinity;
+
+        for (const coordenada of coordenadas) {
+            const distancia = calcularDistancia(longitudUsuario, latitudUsuario, coordenada.latitud, coordenada.longitud);
+
+            if (distancia < distanciaMinima) {
+                distanciaMinima = distancia;
+                coordenadaCercana = coordenada;
+            }
+        }
+
+        return coordenadaCercana;
+    }
+
+    // Función para calcular la distancia entre dos puntos
+    function calcularDistancia(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radio de la Tierra en kilómetros
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distancia = R * c;
+
+        return distancia;
+    }
+
+    // Función para convertir grados a radianes
+    function toRad(grados) {
+        return grados * (Math.PI / 180);
+    }
+
+
+
+
+
+
+
+
     const map = L.map('map').setView([4.638413449952397, -74.08805811325989], 14)
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

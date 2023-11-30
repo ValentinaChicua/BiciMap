@@ -26,6 +26,8 @@ public class tramoController {
         return "tramos";
     }
 
+   
+
     @GetMapping("/obtenerCoordenadasTramo/{nombreTramo}")
     public ResponseEntity<String> obtenerCoordenadasTramo(@PathVariable String nombreTramo) {
         List<Coordenada> coordenadas = tramo.obtener(nombreTramo);
@@ -65,5 +67,19 @@ public class tramoController {
     public String mostrarMapaCentro5(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
         model.addAttribute("coordenadas", coordenadas);
         return "mapaCentro5";
+    }
+
+    @GetMapping("/usuarios/prueba")
+    public String mostrarMapaCentro5(@RequestParam(name = "latitudUsuario") Double latitudUsuario,
+                                     @RequestParam(name = "longitudUsuario") Double longitudUsuario,
+                                     @RequestParam(name = "latitudCercana") Double latitudCercana,
+                                     @RequestParam(name = "longitudCercana") Double longitudCercana,
+                                     Model model) {
+        model.addAttribute("latitudUsuario", latitudUsuario);
+        model.addAttribute("longitudUsuario", longitudUsuario);
+        model.addAttribute("latitudCercana", latitudCercana);
+        model.addAttribute("longitudCercana", longitudCercana);
+
+        return "prueba";
     }
 }
