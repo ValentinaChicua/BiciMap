@@ -68,4 +68,10 @@ public class tramoController {
         model.addAttribute("coordenadas", coordenadas);
         return "mapaCentro5";
     }
+
+    @GetMapping("/usuarios/mapaNorte4")
+    public String mostrarMapaNorte4(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
+        model.addAttribute("coordenadas", coordenadas);
+        return "mapaNorte4";
+    }
 }
