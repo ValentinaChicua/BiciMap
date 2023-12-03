@@ -662,6 +662,11 @@ public class tramo {
         );
         agregarEntrada("Centro1", coordenadasSextoTramo);
 
+        List<Coordenada> coordenadasSeptimoTramo = List.of(
+                new Coordenada(-74.08908, 4.576167));
+
+        agregarEntrada("Norte4", coordenadasSeptimoTramo);
+
     }
 
 
