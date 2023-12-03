@@ -1,9 +1,16 @@
 package historial;
 
-public class historyDynamicStack {
-    int size, top;
-    int capacity = 8;
-    Object[] history;
+
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+public class historyDynamicStack<T> {
+    private int size, top;
+    private int capacity = 8;
+    private Object[] history;
 
     public historyDynamicStack() {
         this.history = new Object[capacity];
@@ -11,15 +18,17 @@ public class historyDynamicStack {
         top = 0;
     }
 
-    public Object getHistory(int index) {
-        // Metodo para obtener un elemento del historial en concreto a traves de su indice
-        return history[index];
+    public List<T> getHistory() {
+        List<T> historial = new ArrayList<>();
+        for (int i = 0; i <size; i++) {
+            historial.add(returnHistory());
+        }
+        restart();
+        return historial;
     }
 
-    public void pushHistory(Object data) {
-        // Metodo para agregar elementos al historial
-        // Cada vez que se hace una busqueda de ruta se llama y se guarda
-        if (size >= capacity) { //Si nuestro Stack ya esta lleno aumentamos la capacidad
+    public void pushHistory(T data) {
+        if (size >= capacity) {
             growHistory();
         }
         history[size] = data;
@@ -27,24 +36,21 @@ public class historyDynamicStack {
         top++;
     }
 
-    public int searchHistory(Object data) {
-        // Para buscar una ruta en el Historial
+    public T searchHistory(T data) {
         for (int i = 0; i < size; i++) {
-            if (history[i] == data) {
-                return i;
+            if (history[i].equals(data)) {
+                return (T) history[i];
             }
         }
-        return -1;
+        return null;  // O algún valor por defecto si no se encuentra
     }
 
     private void growHistory() {
-        // Aumentar la capacidad de la pila de forma amortizada
         int newCapacity = (int) (capacity * 2);
         Object[] newHistory = new Object[newCapacity];
 
-        for (int i = 0; i < size; i++) {
-            newHistory[i] = history[i];
-        }
+        System.arraycopy(history, 0, newHistory, 0, size);
+
         capacity = newCapacity;
         history = newHistory;
     }
@@ -58,35 +64,35 @@ public class historyDynamicStack {
     }
 
     public String toString() {
-
-        String string = "";
-        // Este metodo imprime todos los elementos del historial separado por comas ", "
+        StringBuilder string = new StringBuilder();
         for (int i = 0; i < capacity; i++) {
-            string += history[i] + ", ";
+            string.append(history[i]).append(", ");
         }
-        if (string != "") {
-            string = "[" + string.substring(0, string.length() - 2) + "]";
+        if (string.length() > 0) {
+            string = new StringBuilder("[" + string.substring(0, string.length() - 2) + "]");
         } else {
-            string = "[]";
+            string = new StringBuilder("[]");
         }
-        return string;
+        return string.toString();
     }
 
-    public String returnHistory() {
-        // Devuelve el elemento mas reciente del historial
-        // Similar al pop sin embargo aqui no damos la oportunidad de eliminar algo del historial
-        // Se puede ejcutar cuantas veces quiera el usuario para ir retornando 1 a 1 los elementos del historial
+    public T returnHistory() {
         try {
             top--;
-            return (String) history[top];
+            return (T) history[top];
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new RuntimeException("History is empty");
         }
     }
 
     public void restart() {
-        // Reinicia el top despues hacer returnHistory cuantas veces lo requiera el usuario
         top = size;
     }
+
+    public void clearHistory() {
+        top = 0;
+        size = 0;
+    }
 }
+
 
