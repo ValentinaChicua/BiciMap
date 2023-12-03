@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Incluye Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Otras etiquetas del encabezado -->
+  <style>
+    body {
+      margin: 0; /* Elimina el margen predeterminado del cuerpo de la página */
+      padding: 0; /* Elimina el relleno predeterminado del cuerpo de la página */
+    }
+    #map-container {
+      position: absolute;
+      top: 50px; /* Espaciado en la parte superior del contenedor del mapa */
+      left: 50px; /* Espaciado en el lado izquierdo del contenedor del mapa */
+      bottom: 50px; /* Espaciado en la parte inferior del contenedor del mapa */
+      right: 50px; /* Espaciado en el lado derecho del contenedor del mapa */
+      transition: transform 0.5s; /* Agrega una transición suave para la rotación */
+    }
+    #retroceder-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000; /* Asegura que el botón esté sobre el mapa */
+      background-color: green; /* Cambia el color del botón a verde */
+      color: white; /* Cambia el color del texto del botón a blanco */
+    }
+    #map {
+      height: 100%; /* Ajusta la altura del mapa para que ocupe todo el contenedor */
+      width: 100%; /* Ajusta el ancho del mapa para que ocupe todo el contenedor */
+    }
+  </style>
+</head>
+<body>
+<div id="retroceder-btn" class="btn btn-primary" onclick="retrocederTramos()">Retroceder a Tramos</div>
+<div id="map-container">
+  <!-- Contenedor para el mapa -->
+  <div id="map"></div>
+</div>
+
+<script>
+  const carrera7= {
+    "coordinates":[
+      [
+        -74.069391,
+        4.613547
+      ],
+      [
+        -74.069579,
+        4.612331
+      ],
+      [
+        -74.069664,
+        4.611926
+      ],
+      [
+        -74.069662,
+        4.611862
+      ],
+      [
+        -74.069707,
+        4.611649
+      ],
+      [
+        -74.069752,
+        4.611567
+      ],
+      [
+        -74.069876,
+        4.61106
+      ],
+      [
+        -74.069924,
+        4.611092
+      ],
+      [
+        -74.069973,
+        4.611105
+      ],
+      [
+        -74.07023,
+        4.610046
+      ],
+      [
+        -74.070237,
+        4.610018
+      ],
+      [
+        -74.070201,
+        4.609998
+      ],
+      [
+        -74.070731,
+        4.608022
+      ],
+      [
+        -74.070768,
+        4.608044
+      ],
+      [
+        -74.070777,
+        4.608013
+      ],
+      [
+        -74.070768,
+        4.608044
+      ],
+      [
+        -74.070731,
+        4.608022
+      ],
+      [
+        -74.070835,
+        4.60767
+      ],
+      [
+        -74.071294,
+        4.60614
+      ],
+      [
+        -74.071608,
+        4.605215
+      ],
+      [
+        -74.071909,
+        4.604391
+      ],
+      [
+        -74.072284,
+        4.603477
+      ],
+      [
+        -74.072692,
+        4.602518
+      ],
+      [
+        -74.073191,
+        4.601659
+      ],
+      [
+        -74.073411,
+        4.601374
+      ],
+      [
+        -74.073739,
+        4.600881
+      ],
+      [
+        -74.074543,
+        4.599548
+      ],
+      [
+        -74.074788,
+        4.599181
+      ],
+      [
+        -74.075287,
+        4.598379
+      ],
+      [
+        -74.075395,
+        4.598301
+      ],
+      [
+        -74.075488,
+        4.598197
+      ],
+      [
+        -74.075845,
+        4.597576
+      ],
+      [
+        -74.075872,
+        4.597462
+      ],
+      [
+        -74.07584,
+        4.597316
+      ],
+      [
+        -74.07588,
+        4.597216
+      ],
+      [
+        -74.076351,
+        4.596479
+      ],
+      [
+        -74.0769,
+        4.595544
+      ],
+      [
+        -74.07744,
+        4.594527
+      ],
+      [
+        -74.077419,
+        4.594519
+      ],
+      [
+        -74.07811,
+        4.593322
+      ],
+      [
+        -74.078811,
+        4.592104
+      ],
+      [
+        -74.079478,
+        4.590855
+      ],
+      [
+        -74.079456,
+        4.59084
+      ],
+      [
+        -74.081157,
+        4.587991
+      ],
+      [
+        -74.081313,
+        4.587495
+      ],
+      [
+        -74.081389,
+        4.587318
+      ],
+      [
+        -74.081746,
+        4.586621
+      ],
+      [
+        -74.081756,
+        4.58653
+      ],
+      [
+        -74.081848,
+        4.586559
+      ],
+      [
+        -74.082132,
+        4.584727
+      ],
+      [
+        -74.082258,
+        4.584496
+      ],
+      [
+        -74.082552,
+        4.584081
+      ],
+      [
+        -74.082736,
+        4.583888
+      ],
+      [
+        -74.084122,
+        4.582784
+      ],
+      [
+        -74.084347,
+        4.582501
+      ],
+      [
+        -74.084732,
+        4.581977
+      ],
+      [
+        -74.085759,
+        4.580523
+      ],
+      [
+        -74.086262,
+        4.579716
+      ],
+      [
+        -74.086802,
+        4.578907
+      ],
+      [
+        -74.086794,
+        4.5789
+      ],
+      [
+        -74.086834,
+        4.578843
+      ],
+      [
+        -74.087256,
+        4.578243
+      ],
+      [
+        -74.087474,
+        4.577998
+      ],
+      [
+        -74.088496,
+        4.576982
+      ],
+      [
+        -74.091036,
+        4.573391
+      ],
+      [
+        -74.091525,
+        4.572836
+      ],
+      [
+        -74.091451,
+        4.572765
+      ],
+      [
+        -74.091481,
+        4.572716
+      ]
+    ]
+  }
+  const coordinatescarrera7 = carrera7.coordinates;
+  // Coordenadas de Bogotá, Colombia (centro aproximado)
+  const bogota = { latitud: 4.609710, longitud: -74.081749 };
+
+  // Obtén las coordenadas de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const coordenadasParam = urlParams.get('coordenadas');
+  const coordenadas = JSON.parse(decodeURIComponent(coordenadasParam));
+
+  // Crea un mapa con Leaflet centrado en Bogotá
+  var map = L.map('map').setView([bogota.latitud, bogota.longitud], 50);
+
+  // Agrega una capa de mapa base (OpenStreetMap)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Crea una línea de ruta con las coordenadas
+  const ruta = L.polyline(coordenadas.map(coordenada => [coordenada.longitud, coordenada.latitud]), { color: 'red' }).addTo(map);
+  const ruta2 = L.polyline(coordinatescarrera7.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);
+  // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+  const allCoordinates = [...coordinatescarrera7, ...coordenadas];
+
+  // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+  const bounds = ruta.getBounds().extend(ruta2.getBounds());
+  map.fitBounds(bounds);
+
+  // Función para retroceder a la página de tramos
+  function retrocederTramos() {
+    window.location.href = '/usuarios/tramos';
+  }
+</script>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

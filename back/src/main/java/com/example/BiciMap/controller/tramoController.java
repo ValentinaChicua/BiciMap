@@ -74,4 +74,19 @@ public class tramoController {
         model.addAttribute("coordenadas", coordenadas);
         return "mapaNorte4";
     }
+    @GetMapping("/usuarios/mapaNorte1")
+    public String mostrarMapaNorte1(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
+        model.addAttribute("coordenadas", coordenadas);
+        return "mapaNorte1";
+    }
+    @GetMapping("/usuarios/mapaCentro3")
+    public String mostrarMapaCentro3(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
+        model.addAttribute("coordenadas", coordenadas);
+        return "mapaCentro3";
+    }
+    @GetMapping("/usuarios/mapaNorte3")
+    public String mostrarMapaNorte3(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
+        model.addAttribute("coordenadas", coordenadas);
+        return "mapaNorte3";
+    }
 }

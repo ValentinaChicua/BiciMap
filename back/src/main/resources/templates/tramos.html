@@ -54,9 +54,9 @@
         <div class="col-md-6">
             <div class="text-center">
                 <!-- Botones Rectangulares -->
-                <button class="rectangular-button">Norte 1 Boyacá Norte</button>
+                <button id="Norte1" class="rectangular-button">Norte 1 Boyacá Norte</button>
                 <button class="rectangular-button">Norte 2 Av. Pepe Sierra y Av. Cordoba</button>
-                <button class="rectangular-button">Norte 3 Carrera 7 Norte</button>
+                <button id="Norte3" class="rectangular-button">Norte 3 Carrera 7 Norte</button>
                 <button id="Norte4" class="rectangular-button">Norte 4 Carrera 9, Calle 147 y Calle 170</button>
                 <button class="rectangular-button">Norte 5 Calle 72 y Carrera 60</button>
                 <button class="rectangular-button">Centro 1 Boyacá Sur</button>
@@ -68,7 +68,7 @@
         <div class="col-md-6">
             <div class="text-center">
                 <!-- Botones Rectangulares -->
-                <button class="rectangular-button">Centro 3 Carrera 7 Sur</button>
+                <button id="Centro3" class="rectangular-button">Centro 3 Carrera 7 Sur</button>
                 <button id="Centro4"  class="rectangular-button">Centro 4 Calle 26 Oriental</button>
                 <button id="Centro5" class="rectangular-button">Centro 5 Calle 26 Occidental</button>
                 <button class="rectangular-button">Centro 6 Parkway y Parque Nacional</button>
@@ -178,6 +178,59 @@
             })
             .catch(error => console.error('Error:', error));
     });
+
+    document.getElementById('Norte1').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Norte1')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaNorte1?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+    document.getElementById('Centro3').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Centro3')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaCentro3?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+    document.getElementById('Norte3').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Norte3')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaNorte3?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
 </script>
 </body>
 </html>
