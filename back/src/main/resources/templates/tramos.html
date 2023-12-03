@@ -159,6 +159,25 @@
             })
             .catch(error => console.error('Error:', error));
     });
+
+    document.getElementById('Norte4').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Norte4')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaNorte4?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
 </script>
 </body>
 </html>
