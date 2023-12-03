@@ -7,7 +7,7 @@ public class HistorialMenu {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        historyDynamicStack historial = new historyDynamicStack();
+        historyDynamicStack<String> historial = new historyDynamicStack();
 
         while (true) {
             System.out.println("Menú de Historial");
@@ -31,7 +31,7 @@ public class HistorialMenu {
                 case 2:
                     System.out.print("Ingrese el elemento a buscar en el historial: ");
                     String elementoBuscar = scanner.next();
-                    int index = historial.searchHistory(elementoBuscar);
+                    int index = Integer.parseInt(historial.searchHistory(elementoBuscar));
                     if (index != -1) {
                         System.out.println("Elemento encontrado en el índice " + index + " del historial.");
                     } else {
