@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
+
 @Component
 public class tramo {
     private static final int TAMANO = 14; // Tamaño inicial de la tabla hash
@@ -57,6 +58,7 @@ public class tramo {
         // Retornar null si la clave no se encuentra
         return null;
     }
+
     private void inicializarTramos() {
         List<Coordenada> coordenadasPrimerTramo = List.of(
                 new Coordenada(-74.08908, 4.576167),
@@ -663,13 +665,69 @@ public class tramo {
         agregarEntrada("Centro1", coordenadasSextoTramo);
 
         List<Coordenada> coordenadasSeptimoTramo = List.of(
-                new Coordenada(-74.08908, 4.576167));
+                new Coordenada(-74.077171, 4.758102),
+                new Coordenada(-74.076791, 4.758058),
+                new Coordenada(-74.076555, 4.758054),
+                new Coordenada(-74.076109, 4.75811),
+                new Coordenada(-74.075598, 4.758154),
+                new Coordenada(-74.075024, 4.75829),
+                new Coordenada(-74.074728, 4.758422),
+                new Coordenada(-74.074397, 4.758642),
+                new Coordenada(-74.074272, 4.758747),
+                new Coordenada(-74.073846, 4.75918),
+                new Coordenada(-74.072832, 4.760271),
+                new Coordenada(-74.071226, 4.761925),
+                new Coordenada(-74.071117, 4.762012),
+                new Coordenada(-74.070994, 4.76208),
+                new Coordenada(-74.070648, 4.762228),
+                new Coordenada(-74.069799, 4.76254),
+                new Coordenada(-74.06952, 4.762591),
+                new Coordenada(-74.069369, 4.762594),
+                new Coordenada(-74.06911, 4.76256),
+                new Coordenada(-74.068867, 4.762487),
+                new Coordenada(-74.068729, 4.762424),
+                new Coordenada(-74.067803, 4.761745),
+                new Coordenada(-74.067413, 4.761535),
+                new Coordenada(-74.065937, 4.760432),
+                new Coordenada(-74.063322, 4.758423),
+                new Coordenada(-74.06002, 4.755996),
+                new Coordenada(-74.059705, 4.755728),
+                new Coordenada(-74.057725, 4.753816),
+                new Coordenada(-74.057571, 4.753742),
+                new Coordenada(-74.05537, 4.753274),
+                new Coordenada(-74.053364, 4.752976),
+                new Coordenada(-74.052462, 4.752735),
+                new Coordenada(-74.05187, 4.752601),
+                new Coordenada(-74.049308, 4.752084),
+                new Coordenada(-74.048127, 4.751863),
+                new Coordenada(-74.046392, 4.751459),
+                new Coordenada(-74.045654, 4.751263),
+                new Coordenada(-74.045468, 4.751199),
+                new Coordenada(-74.044882, 4.750918),
+                new Coordenada(-74.044342, 4.750716),
+                new Coordenada(-74.043826, 4.750577),
+                new Coordenada(-74.041587, 4.750036),
+                new Coordenada(-74.0396, 4.749539),
+                new Coordenada(-74.037415, 4.749016),
+                new Coordenada(-74.036986, 4.748927),
+                new Coordenada(-74.035115, 4.748621),
+                new Coordenada(-74.031784, 4.748109),
+                new Coordenada(-74.031797, 4.747967),
+                new Coordenada(-74.031985, 4.74018),
+                new Coordenada(-74.03205, 4.738169),
+                new Coordenada(-74.032131, 4.734464),
+                new Coordenada(-74.032191, 4.732828),
+                new Coordenada(-74.032265, 4.730154),
+                new Coordenada(-74.032297, 4.728283),
+                new Coordenada(-74.03238, 4.725936),
+                new Coordenada(-74.032461, 4.722603)
+
+
+        );
 
         agregarEntrada("Norte4", coordenadasSeptimoTramo);
 
     }
-
-
 
 
 }
