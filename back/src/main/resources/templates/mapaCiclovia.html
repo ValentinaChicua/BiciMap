@@ -69,14 +69,6 @@
             }).addTo(map);
 
 
-            // A traves de las implementaciones de las Valentinas dada una direccion se transforma en coordenadas
-            // Marcador inicio de Ruta, recibe por paramemetro las coordenadas de inicio [latitud, longitud] dadas por el usuario
-            // L.marker([4.63201, -74.08616]).addTo(map).bindPopup("Inicio de la Ruta")
-
-            // // Marcador fin fr Ruta, recibe por paramemetro las coordenadas fin [latitud, longitud] dadas por el usuario
-            // L.marker([4.586788, -74.098995]).addTo(map).bindPopup("Casa con mi amor")
-
-
             // Mostrar [latitud, longitud] en el mapa
             map.on('click', onMapClick)
 
@@ -84,6 +76,98 @@
             function onMapClick(evento) {
                 alert("Posicion: " + evento.latlng)
             }
+
+            function obtenerCoordenadas(direccion, callback) {
+                fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(direccion)}&format=json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            const lat = data[0].lat;
+                            const lon = data[0].lon;
+                            callback(lat, lon);
+                        } else {
+                            alert("Dirección no encontrada: " + direccion);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la geocodificación:', error);
+                    });
+            }
+
+            function realizarPeticionGraphHopper(inicioLat, inicioLng, finLat, finLng) {
+
+                console.log(inicioLat);
+                console.log(inicioLng);
+                console.log(finLat);
+                console.log(finLng);
+
+                // Peticion a la api de GraphHopper, se basa en la documentacion oficial
+                const query = new URLSearchParams({
+                    key: '566ed7a9-5e2d-4767-bba4-215341cd0c38'  // Clave api GraphHopper dominio Eduard Patiño
+                }).toString();
+
+                // Se hace la peticion a la api que devuelve un json con toda la informacion de la ruta
+                fetch(
+                    `https://graphhopper.com/api/1/route?${query}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            points: [
+                                [inicioLng, inicioLat],
+                                [finLng, finLat]
+                            ],
+                            point_hints: ['Lindenschmitstraße', 'Thalkirchener Str.'],
+                            snap_preventions: ['motorway', 'ferry', 'tunnel'],
+                            details: ['road_class', 'surface'],
+                            vehicle: 'bike', // se puede especificar a la api de GraphHopper el tipo de vehiculo que seguira la ruta, para el proyecto sera bicicleta
+                            locale: 'en',
+                            instructions: true,
+                            calc_points: true,
+                            points_encoded: false
+                        })
+                    }
+                )
+                    .then(response => response.json())
+                    // La respuesta de la api en formato JSON la asignamos a una variable llamada data
+                    .then(data => {
+                        // Extraer las coordenadas de la ruta que vienen dadas en el JSON con la clave asociada "coordinates"
+                        const coordinates = data.paths[0].points.coordinates.map(coord => [coord[1], coord[0]]);
+
+                        // Crear una polilínea con Leaflet
+                        const rutaPolyline = L.polyline(coordinates, {color: '#16B6DE'}).addTo(map);
+
+                        // Ajustar el zoom del mapa para mostrar la ruta completa
+                        map.fitBounds(rutaPolyline.getBounds());
+                    })
+                    .catch(error => {
+                        console.error('Error en la petición:', error);
+                    });
+
+                L.marker([inicioLat, inicioLng]).addTo(map).bindPopup("Inicio de la Ruta");
+
+                L.marker([finLat, finLng]).addTo(map).bindPopup("Fin de la Ruta");
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelector('.btn-green').addEventListener('click', function () {
+                    const direccionInicio = document.getElementById('etiqueta1').value;
+                    const direccionFin = document.getElementById('etiqueta2').value;
+
+                    // Geocodificación de las direcciones
+                    obtenerCoordenadas(direccionInicio, (inicioLat, inicioLng) => {
+                        obtenerCoordenadas(direccionFin, (finLat, finLng) => {
+                            // Llama a realizarPeticionGraphHopper con las coordenadas obtenidas
+                            realizarPeticionGraphHopper(inicioLat, inicioLng, finLat, finLng);
+
+                        });
+                    });
+                });
+            });
+
+
         </script>
     </div>
 
@@ -107,7 +191,6 @@
             </div>
         </div>
     </div>
-
 
 
     <br>
