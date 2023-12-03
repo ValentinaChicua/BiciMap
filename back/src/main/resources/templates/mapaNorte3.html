@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Incluye Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Otras etiquetas del encabezado -->
+  <style>
+    body {
+      margin: 0; /* Elimina el margen predeterminado del cuerpo de la página */
+      padding: 0; /* Elimina el relleno predeterminado del cuerpo de la página */
+    }
+    #map-container {
+      position: absolute;
+      top: 50px; /* Espaciado en la parte superior del contenedor del mapa */
+      left: 50px; /* Espaciado en el lado izquierdo del contenedor del mapa */
+      bottom: 50px; /* Espaciado en la parte inferior del contenedor del mapa */
+      right: 50px; /* Espaciado en el lado derecho del contenedor del mapa */
+      transition: transform 0.5s; /* Agrega una transición suave para la rotación */
+    }
+    #retroceder-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000; /* Asegura que el botón esté sobre el mapa */
+      background-color: green; /* Cambia el color del botón a verde */
+      color: white; /* Cambia el color del texto del botón a blanco */
+    }
+    #map {
+      height: 100%; /* Ajusta la altura del mapa para que ocupe todo el contenedor */
+      width: 100%; /* Ajusta el ancho del mapa para que ocupe todo el contenedor */
+    }
+  </style>
+</head>
+<body>
+<div id="retroceder-btn" class="btn btn-primary" onclick="retrocederTramos()">Retroceder a Tramos</div>
+<div id="map-container">
+  <!-- Contenedor para el mapa -->
+  <div id="map"></div>
+</div>
+
+<script>
+  const carrera7Calle116= {
+    "coordinates":[
+      [
+        -74.039989,
+        4.677776
+      ],
+      [
+        -74.040081,
+        4.677618
+      ],
+      [
+        -74.040198,
+        4.677284
+      ],
+      [
+        -74.040384,
+        4.676177
+      ],
+      [
+        -74.040453,
+        4.675947
+      ],
+      [
+        -74.040532,
+        4.675745
+      ],
+      [
+        -74.040638,
+        4.675538
+      ],
+      [
+        -74.040749,
+        4.67536
+      ],
+      [
+        -74.041127,
+        4.674896
+      ],
+      [
+        -74.041299,
+        4.674733
+      ],
+      [
+        -74.042095,
+        4.674133
+      ],
+      [
+        -74.042561,
+        4.673665
+      ],
+      [
+        -74.042716,
+        4.673489
+      ],
+      [
+        -74.043006,
+        4.673086
+      ],
+      [
+        -74.043095,
+        4.67292
+      ],
+      [
+        -74.043315,
+        4.672387
+      ],
+      [
+        -74.043683,
+        4.671671
+      ],
+      [
+        -74.043701,
+        4.671681
+      ],
+      [
+        -74.043872,
+        4.671362
+      ],
+      [
+        -74.043845,
+        4.671348
+      ],
+      [
+        -74.044525,
+        4.670029
+      ],
+      [
+        -74.045168,
+        4.668583
+      ],
+      [
+        -74.045262,
+        4.6684
+      ],
+      [
+        -74.045547,
+        4.667924
+      ],
+      [
+        -74.046283,
+        4.666211
+      ],
+      [
+        -74.046422,
+        4.665927
+      ],
+      [
+        -74.04684,
+        4.66516
+      ],
+      [
+        -74.047084,
+        4.664757
+      ],
+      [
+        -74.047376,
+        4.664399
+      ],
+      [
+        -74.048738,
+        4.663077
+      ],
+      [
+        -74.049361,
+        4.662372
+      ],
+      [
+        -74.050385,
+        4.661247
+      ],
+      [
+        -74.05098,
+        4.660675
+      ],
+      [
+        -74.051524,
+        4.660122
+      ],
+      [
+        -74.052239,
+        4.659437
+      ],
+      [
+        -74.052888,
+        4.658774
+      ],
+      [
+        -74.053218,
+        4.658405
+      ],
+      [
+        -74.054721,
+        4.656207
+      ],
+      [
+        -74.054999,
+        4.655745
+      ],
+      [
+        -74.055125,
+        4.655513
+      ],
+      [
+        -74.055262,
+        4.655236
+      ],
+      [
+        -74.055379,
+        4.654951
+      ],
+      [
+        -74.055425,
+        4.654989
+      ]
+    ]
+  }
+  const coordinatescarrera7Calle116 = carrera7Calle116.coordinates;
+  // Coordenadas de Bogotá, Colombia (centro aproximado)
+  const bogota = { latitud: 4.609710, longitud: -74.081749 };
+
+  // Obtén las coordenadas de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const coordenadasParam = urlParams.get('coordenadas');
+  const coordenadas = JSON.parse(decodeURIComponent(coordenadasParam));
+
+  // Crea un mapa con Leaflet centrado en Bogotá
+  var map = L.map('map').setView([bogota.latitud, bogota.longitud], 50);
+
+  // Agrega una capa de mapa base (OpenStreetMap)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Crea una línea de ruta con las coordenadas
+  const ruta = L.polyline(coordenadas.map(coordenada => [coordenada.longitud, coordenada.latitud]), { color: 'red' }).addTo(map);
+  const ruta2 = L.polyline(coordinatescarrera7Calle116.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);
+  // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+  const allCoordinates = [...coordinatescarrera7Calle116, ...coordenadas];
+
+  // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+  const bounds = ruta.getBounds().extend(ruta2.getBounds());
+  map.fitBounds(bounds);
+
+  // Función para retroceder a la página de tramos
+  function retrocederTramos() {
+    window.location.href = '/usuarios/tramos';
+  }
+</script>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
