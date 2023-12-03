@@ -8,9 +8,27 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <title>OpenStreetMap Route</title>
+
+    <style>
+        #startRoute {
+            margin-top: 20px;
+            background-color: #169213;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        #startRoute:hover {
+            background-color: #0d680a;
+        }
+    </style>
 </head>
 <body>
 <div id="map" style="height: 700px;"></div>
+<div style="text-align: center;">
+    <button id="startRoute" onclick="addMarkerAtUserLocation()">Iniciar ruta</button>
+</div>
 <script>
     // Obtener las coordenadas del usuario y la coordenada más cercana del HTML anterior
     const urlParams = new URLSearchParams(window.location.search);
@@ -3435,6 +3453,32 @@
         show: true,// Oculta el cuadro de diálogo de instrucciones
 
     }).addTo(mymap);
+
+    ///////
+    function addMarkerAtUserLocation() {
+        // Define el ícono personalizado (en este caso, un marcador rojo)
+        var redIcon = L.icon({
+            iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            iconSize: [25, 41], // Tamaño del ícono
+            iconAnchor: [12, 41], // Punto donde el ícono se conecta al mapa
+            popupAnchor: [1, -34] // Punto donde se abrirá el popup
+        });
+        // Crea un nuevo marcador utilizando el ícono personalizado en la posición del usuario
+        var userMarker = L.marker([latitudUsuario, longitudUsuario], { icon: redIcon }).addTo(mymap);
+        userMarker.bindPopup("¡Estás aquí!").openPopup();
+        // Actualiza la posición del marcador según la ubicación en tiempo real del usuario
+        function updateUserLocation(position) {
+            var latlng = [position.coords.latitude, position.coords.longitude];
+            userMarker.setLatLng(latlng); // Actualiza la posición del marcador
+            mymap.setView(latlng); // Centra el mapa en la nueva ubicación
+        }
+        // Función de error en caso de problemas con la geolocalización
+        function handleLocationError(error) {
+            console.error(`Error: ${error.message}`);
+        }
+        // Comienza a observar la ubicación del usuario y actualiza el marcador en consecuencia
+        var watchUserLocation = navigator.geolocation.watchPosition(updateUserLocation, handleLocationError);
+    }
 
 
 

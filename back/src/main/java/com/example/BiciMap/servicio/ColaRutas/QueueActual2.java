@@ -10,6 +10,9 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class QueueActual2 {
     NodoActual2 head, rear;
@@ -23,7 +26,9 @@ public class QueueActual2 {
     public boolean Empty() {
         return head == null;
     }
+
     HttpClient httpClient = HttpClients.createDefault();
+
     public void Push(String address1, String address2) throws Exception {
         String coordinates1 = getCoordinates(httpClient, address1);
         // Obtener coordenadas de la segunda dirección
@@ -42,11 +47,13 @@ public class QueueActual2 {
             // Calcular la distancia entre las coordenadas
             double distance = haversineDistance(Double.parseDouble(lat1), Double.parseDouble(lon1),
                     Double.parseDouble(lat2), Double.parseDouble(lon2));
-            NodoActual2 nuevo = new NodoActual2(address1,address2,lat1,lon1,lat2,lon2,distance);
-            if (Empty()){
-                head =nuevo;
-            }else{
+            NodoActual2 nuevo = new NodoActual2(address1, address2, lat1, lon1, lat2, lon2, distance);
+            if (Empty()) {
+                head = rear = nuevo;
+            } else {
                 rear.next = nuevo;
+                rear = nuevo;
+
             }
 
             System.out.println("La distancia entre las dos direcciones es " + distance + " kilómetros.");
@@ -54,6 +61,7 @@ public class QueueActual2 {
             System.out.println("No se pudieron obtener las coordenadas de una o ambas direcciones.");
         }
     }
+
     public static String getCoordinates(HttpClient httpClient, String address) throws Exception {
         String encodedAddress = URLEncoder.encode(address, "UTF-8");
         String url = "https://nominatim.openstreetmap.org/search?format=json&q=" + encodedAddress;
@@ -72,6 +80,7 @@ public class QueueActual2 {
             return null;
         }
     }
+
     public static double haversineDistance(double lat1, double lon1, double lat2, double lon2) {
         // Radio de la Tierra en kilómetros
         double R = 6371.0;
@@ -91,6 +100,7 @@ public class QueueActual2 {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
+
     public void Pop() {
         try {
             Object aux1 = head.iniDireccion;
@@ -114,26 +124,28 @@ public class QueueActual2 {
     public Object Size() {
         return size;
     }
-    public void mostrarRutas() {
+
+    int numeroRuta = 1;
+
+    public List<String> mostrarRutas() {
         NodoActual2 current = head;
+        List<String> rutas = new ArrayList<>();
 
-        if (current == null) {
+
+        if (current.iniDireccion != null && current.finDireccion != null) {
+            String ruta = "Ruta " + numeroRuta + ": " + "Inicio: " + current.iniDireccion + " Fin: " + current.finDireccion;
+            rutas.add(ruta); // Agregar la cadena de la ruta a la lista
+            System.out.println(ruta); // Mostrar la ruta en la consola
+        } else {
+            System.out.println("Alguna de las direcciones en la ruta " + numeroRuta + " es nula.");
+        }
+
+
+        if (rutas.isEmpty()) {
             System.out.println("No hay rutas en la cola.");
-            return;
         }
+        return rutas; // Retornar la lista de rutas
 
-        System.out.println("Rutas en la cola:");
-        int numeroRuta = 1;
 
-        while (current != null) {
-            System.out.println("Ruta " + numeroRuta + ":");
-            System.out.println("Inicio: " + current.iniDireccion);
-            System.out.println("Fin: " + current.finDireccion);
-            System.out.println("Longitud de la Ruta: " + (double) Math.round(current.km * 100d) / 100 + " km");
-            System.out.println();
-
-            current = current.next;
-            numeroRuta++;
-        }
     }
 }

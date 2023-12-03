@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mostrar Rutas</title>
+    <style>
+        body {
+            background-color: #169213;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative; /* Añadido para que la posición absoluta sea relativa al body */
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #169213;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            color: #169213;
+        }
+        .custom-btn {
+            background-color: white;
+            color: #169213;
+            padding: 10px 20px;
+            font-size: inherit;
+            height: auto;
+            width: auto;
+            border-radius: 5px;
+            text-decoration: none;
+            position: absolute; /* Cambiado a absolute para posicionar */
+            top: 0; /* Coloca el botón en la parte superior */
+            left: 0; /* Coloca el botón en la parte izquierda */
+            margin: 20px; /* Añade margen para separar del borde */
+        }
+    </style>
+</head>
+<body>
+<a href="#" class="custom-btn" onclick="regresar()">Volver</a>
+<div class="container position-relative">
+    <h1>Listado de Rutas</h1>
+    <ul>
+        <li th:each="ruta : ${rutas}">
+            <p th:text="${ruta}"></p>
+        </li>
+    </ul>
+</div>
+<script>
+    function regresar() {
+        // Regresar a la página anterior
+        window.history.back();
+    }
+</script>
+</body>
+</html>
