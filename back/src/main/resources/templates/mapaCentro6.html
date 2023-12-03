@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Incluye Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Otras etiquetas del encabezado -->
+    <style>
+        body {
+            margin: 0; /* Elimina el margen predeterminado del cuerpo de la página */
+            padding: 0; /* Elimina el relleno predeterminado del cuerpo de la página */
+        }
+        #map-container {
+            position: absolute;
+            top: 50px; /* Espaciado en la parte superior del contenedor del mapa */
+            left: 50px; /* Espaciado en el lado izquierdo del contenedor del mapa */
+            bottom: 50px; /* Espaciado en la parte inferior del contenedor del mapa */
+            right: 50px; /* Espaciado en el lado derecho del contenedor del mapa */
+            transition: transform 0.5s; /* Agrega una transición suave para la rotación */
+        }
+        #retroceder-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000; /* Asegura que el botón esté sobre el mapa */
+            background-color: green; /* Cambia el color del botón a verde */
+            color: white; /* Cambia el color del texto del botón a blanco */
+        }
+        #map {
+            height: 100%; /* Ajusta la altura del mapa para que ocupe todo el contenedor */
+            width: 100%; /* Ajusta el ancho del mapa para que ocupe todo el contenedor */
+        }
+    </style>
+</head>
+<body>
+<div id="retroceder-btn" class="btn btn-primary" onclick="retrocederTramos()">Retroceder a Tramos</div>
+<div id="map-container">
+    <!-- Contenedor para el mapa -->
+    <div id="map"></div>
+</div>
+
+<script>
+    const centro6= {
+        "coordinates": [
+            [
+                -74.074729,
+                4.61894
+            ],
+            [
+                -74.07465,
+                4.619113
+            ],
+            [
+                -74.074689,
+                4.619459
+            ],
+            [
+                -74.074732,
+                4.619658
+            ],
+            [
+                -74.074854,
+                4.620202
+            ],
+            [
+                -74.075002,
+                4.62072
+            ],
+            [
+                -74.074421,
+                4.623821
+            ],
+            [
+                -74.073264,
+                4.623609
+            ],
+            [
+                -74.070011,
+                4.623021
+            ],
+            [
+                -74.069787,
+                4.622945
+            ],
+            [
+                -74.067034,
+                4.621367
+            ],
+            [
+                -74.066632,
+                4.622363
+            ],
+            [
+                -74.066438,
+                4.622962
+            ],
+            [
+                -74.066344,
+                4.623321
+            ],
+            [
+                -74.066136,
+                4.623245
+            ],
+            [
+                -74.065957,
+                4.623205
+            ],
+            [
+                -74.065801,
+                4.623197
+            ],
+            [
+                -74.065541,
+                4.623212
+            ],
+            [
+                -74.064171,
+                4.623754
+            ],
+            [
+                -74.063932,
+                4.623847
+            ],
+            [
+                -74.063827,
+                4.623854
+            ],
+            [
+                -74.063757,
+                4.623898
+            ],
+            [
+                -74.06373,
+                4.623931
+            ],
+            [
+                -74.063702,
+                4.624009
+            ],
+            [
+                -74.063712,
+                4.6241
+            ],
+            [
+                -74.063764,
+                4.624175
+            ],
+            [
+                -74.063845,
+                4.624218
+            ],
+            [
+                -74.063942,
+                4.624217
+            ],
+            [
+                -74.064015,
+                4.624179
+            ],
+            [
+                -74.064065,
+                4.624114
+            ],
+            [
+                -74.064082,
+                4.624047
+            ],
+            [
+                -74.064075,
+                4.623979
+            ],
+            [
+                -74.064006,
+                4.62388
+            ],
+            [
+                -74.063932,
+                4.623847
+            ],
+            [
+                -74.063827,
+                4.623854
+            ],
+            [
+                -74.063719,
+                4.62381
+            ],
+            [
+                -74.063601,
+                4.623728
+            ],
+            [
+                -74.063475,
+                4.623551
+            ],
+            [
+                -74.063401,
+                4.623388
+            ],
+            [
+                -74.063184,
+                4.621752
+            ],
+            [
+                -74.063171,
+                4.621254
+            ],
+            [
+                -74.063062,
+                4.621149
+            ],
+            [
+                -74.062946,
+                4.621099
+            ],
+            [
+                -74.062812,
+                4.621128
+            ],
+            [
+                -74.062722,
+                4.621201
+            ],
+            [
+                -74.062685,
+                4.621282
+            ],
+            [
+                -74.062684,
+                4.621348
+            ],
+            [
+                -74.062733,
+                4.621845
+            ],
+            [
+                -74.062721,
+                4.621905
+            ],
+            [
+                -74.062695,
+                4.621945
+            ],
+            [
+                -74.062601,
+                4.622023
+            ],
+            [
+                -74.062185,
+                4.622152
+            ],
+            [
+                -74.062117,
+                4.622196
+            ],
+            [
+                -74.062006,
+                4.622349
+            ],
+            [
+                -74.061746,
+                4.623035
+            ],
+            [
+                -74.061733,
+                4.623171
+            ],
+            [
+                -74.061757,
+                4.623279
+            ],
+            [
+                -74.061861,
+                4.62354
+            ],
+            [
+                -74.061863,
+                4.623658
+            ],
+            [
+                -74.061848,
+                4.623709
+            ],
+            [
+                -74.061789,
+                4.623785
+            ],
+            [
+                -74.061691,
+                4.623828
+            ],
+            [
+                -74.061588,
+                4.623828
+            ],
+            [
+                -74.06148,
+                4.623783
+            ],
+            [
+                -74.06108,
+                4.623472
+            ],
+            [
+                -74.060888,
+                4.623412
+            ],
+            [
+                -74.060052,
+                4.623323
+            ],
+            [
+                -74.059947,
+                4.623284
+            ],
+            [
+                -74.059885,
+                4.623244
+            ],
+            [
+                -74.059583,
+                4.623083
+            ],
+            [
+                -74.059527,
+                4.623077
+            ],
+            [
+                -74.05946,
+                4.623096
+            ],
+            [
+                -74.059384,
+                4.623155
+            ],
+            [
+                -74.059359,
+                4.623196
+            ],
+            [
+                -74.059299,
+                4.623406
+            ],
+            [
+                -74.05925,
+                4.623471
+            ],
+            [
+                -74.059175,
+                4.623515
+            ],
+            [
+                -74.058895,
+                4.623581
+            ],
+            [
+                -74.058833,
+                4.623629
+            ],
+            [
+                -74.058786,
+                4.623664
+            ],
+            [
+                -74.058889,
+                4.623626
+            ],
+            [
+                -74.058951,
+                4.623627
+            ],
+            [
+                -74.059142,
+                4.62371
+            ],
+            [
+                -74.059261,
+                4.623693
+            ],
+            [
+                -74.059328,
+                4.623608
+            ],
+            [
+                -74.059387,
+                4.623428
+            ],
+            [
+                -74.059468,
+                4.623293
+            ],
+            [
+                -74.059513,
+                4.62326
+            ],
+            [
+                -74.059582,
+                4.623236
+            ],
+            [
+                -74.05966,
+                4.623244
+            ],
+            [
+                -74.059742,
+                4.623287
+            ],
+            [
+                -74.059791,
+                4.62333
+            ],
+            [
+                -74.05988,
+                4.623465
+            ],
+            [
+                -74.059958,
+                4.623523
+            ],
+            [
+                -74.060389,
+                4.623601
+            ],
+            [
+                -74.060635,
+                4.623684
+            ],
+            [
+                -74.060801,
+                4.623762
+            ],
+            [
+                -74.061044,
+                4.62391
+            ],
+            [
+                -74.061668,
+                4.624401
+            ],
+            [
+                -74.061825,
+                4.624509
+            ],
+            [
+                -74.061916,
+                4.624536
+            ],
+            [
+                -74.061994,
+                4.624541
+            ],
+            [
+                -74.062188,
+                4.624512
+            ],
+            [
+                -74.062401,
+                4.624397
+            ],
+            [
+                -74.062494,
+                4.624326
+            ],
+            [
+                -74.062566,
+                4.624241
+            ],
+            [
+                -74.062849,
+                4.623728
+            ],
+            [
+                -74.062892,
+                4.623674
+            ],
+            [
+                -74.062962,
+                4.623635
+            ],
+            [
+                -74.063071,
+                4.623637
+            ],
+            [
+                -74.063146,
+                4.623683
+            ],
+            [
+                -74.063202,
+                4.623779
+            ],
+            [
+                -74.063213,
+                4.623843
+            ],
+            [
+                -74.063204,
+                4.623916
+            ],
+            [
+                -74.063168,
+                4.624009
+            ],
+            [
+                -74.063023,
+                4.624266
+            ],
+            [
+                -74.062941,
+                4.624445
+            ],
+            [
+                -74.06295,
+                4.624514
+            ],
+            [
+                -74.063021,
+                4.624598
+            ],
+            [
+                -74.063206,
+                4.624608
+            ],
+            [
+                -74.063453,
+                4.624514
+            ],
+            [
+                -74.063727,
+                4.624326
+            ],
+            [
+                -74.063905,
+                4.624224
+            ],
+            [
+                -74.063942,
+                4.624217
+            ],
+            [
+                -74.064166,
+                4.624285
+            ],
+            [
+                -74.065054,
+                4.625296
+            ],
+            [
+                -74.065262,
+                4.625656
+            ],
+            [
+                -74.065311,
+                4.62571
+            ],
+            [
+                -74.065423,
+                4.625795
+            ],
+            [
+                -74.065596,
+                4.625888
+            ]
+        ]
+
+    }
+    const coordinatescentro6 = centro6.coordinates;
+    // Coordenadas de Bogotá, Colombia (centro aproximado)
+    const bogota = { latitud: 4.609710, longitud: -74.081749 };
+
+    // Obtén las coordenadas de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const coordenadasParam = urlParams.get('coordenadas');
+    const coordenadas = JSON.parse(decodeURIComponent(coordenadasParam));
+
+    // Crea un mapa con Leaflet centrado en Bogotá
+    var map = L.map('map').setView([bogota.latitud, bogota.longitud], 50);
+
+    // Agrega una capa de mapa base (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Crea una línea de ruta con las coordenadas
+    //const ruta = L.polyline(coordenadas.map(coordenada => [coordenada.longitud, coordenada.latitud]), { color: 'red' }).addTo(map);
+    const ruta = L.polyline(coordinatescentro6.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);
+    // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+    //const allCoordinates = [...coordinatescarrera7, ...coordenadas];
+
+    // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+    const bounds = ruta.getBounds();
+    map.fitBounds(bounds);
+
+    // Función para retroceder a la página de tramos
+    function retrocederTramos() {
+        window.location.href = '/usuarios/tramos';
+    }
+</script>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
