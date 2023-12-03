@@ -338,8 +338,8 @@
 
     const coordinatesCalle147 = cicloviaCalle147.coordinates;
 
-    // Coordenadas de Bogotá, Colombia (centro aproximado)
-    const bogota = {latitud: 4.609710, longitud: -74.081749};
+    // Coordenadas de Bogotá, Colombia (Usaquen)
+    const bogota = {latitud: 4.736142, longitud: -74.044247};
 
     // Obtén las coordenadas de la URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -347,7 +347,7 @@
     const coordenadas = JSON.parse(decodeURIComponent(coordenadasParam));
 
     // Crea un mapa con Leaflet centrado en Bogotá
-    var map = L.map('map').setView([bogota.latitud, bogota.longitud], 50);
+    var map = L.map('map').setView([bogota.latitud, bogota.longitud], 14);
 
     // Agrega una capa de mapa base (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -355,10 +355,9 @@
     }).addTo(map);
 
     // Crea una línea de ruta con las coordenadas
-    // const ruta = L.polyline(coordenadas.map(coordenada => [coordenada.longitud, coordenada.latitud]), { color: 'red' }).addTo(map);
     const rutaCiclovia170 = L.polyline(coordinates170.map(coord => [coord[1], coord[0]]), {color: 'red'}).addTo(map);
-    const rutaAvCarrera9_Usaquen = L.polyline(coordinatesAvCarrera9_Usaquen.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(map);
-    const rutaCalle147  = L.polyline(coordinatesCalle147.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(map);
+    const rutaAvCarrera9_Usaquen = L.polyline(coordinatesAvCarrera9_Usaquen.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);
+    const rutaCalle147  = L.polyline(coordinatesCalle147.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);
 
     // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
     const allCoordinates = [...coordinates170, ...coordinatesAvCarrera9_Usaquen, ...coordinatesCalle147];
