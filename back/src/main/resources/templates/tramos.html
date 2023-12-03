@@ -71,7 +71,7 @@
                 <button id="Centro3" class="rectangular-button">Centro 3 Carrera 7 Sur</button>
                 <button id="Centro4"  class="rectangular-button">Centro 4 Calle 26 Oriental</button>
                 <button id="Centro5" class="rectangular-button">Centro 5 Calle 26 Occidental</button>
-                <button class="rectangular-button">Centro 6 Parkway y Parque Nacional</button>
+                <button id="Centro6" class="rectangular-button">Centro 6 Parkway y Parque Nacional</button>
                 <button class="rectangular-button">Sur 1 Bosa conexión Soacha</button>
                 <button class="rectangular-button">Sur 2 Yomasa</button>
                 <button id="Sur3" class="rectangular-button">Sur 3 Calle 17 Sur y Calle 39 Sur</button>
@@ -97,6 +97,26 @@
                 // Verifica que coordenadas es un array antes de continuar
                 if (Array.isArray(coordenadas)) {
                     window.location.href = '/usuarios/mapaSur3?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+
+    document.getElementById('Centro6').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Centro6')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaCentro6?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
                 } else {
                     console.error('Las coordenadas no son un array:', coordenadas);
                 }
