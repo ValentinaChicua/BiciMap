@@ -720,9 +720,18 @@ public class tramo {
                 new Coordenada(-74.032265, 4.730154),
                 new Coordenada(-74.032297, 4.728283),
                 new Coordenada(-74.03238, 4.725936),
-                new Coordenada(-74.032461, 4.722603)
-
-
+                new Coordenada(-74.032461, 4.722603),
+                new Coordenada(-74.032547, 4.71989),
+                new Coordenada(-74.032552, 4.718978),
+                new Coordenada(-74.032729, 4.712924),
+                new Coordenada(-74.03276, 4.712277),
+                new Coordenada(-74.045253, 4.729631),
+                new Coordenada(-74.045249, 4.729651),
+                new Coordenada(-74.041295, 4.729346),
+                new Coordenada(-74.041024, 4.72929),
+                new Coordenada(-74.040365, 4.729007),
+                new Coordenada(-74.034801, 4.726523),
+                new Coordenada(-74.032048, 4.72527)
         );
 
         agregarEntrada("Norte4", coordenadasSeptimoTramo);

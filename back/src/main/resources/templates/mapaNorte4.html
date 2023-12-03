@@ -279,11 +279,64 @@
             [
                 -74.032461,
                 4.722603
+            ],
+            [
+                -74.032547,
+                4.71989
+            ],
+            [
+                -74.032552,
+                4.718978
+            ],
+            [
+                -74.032729,
+                4.712924
+            ],
+            [
+                -74.03276,
+                4.712277
             ]
         ]
     };
 
     const coordinatesAvCarrera9_Usaquen = cicloviaAvCarrera9_Usaquen.coordinates;
+
+
+
+    const cicloviaCalle147 = {
+        "coordinates": [
+            [
+                -74.045253,
+                4.729631
+            ],
+            [
+                -74.045249,
+                4.729651
+            ],
+            [
+                -74.041295,
+                4.729346
+            ],
+            [
+                -74.041024,
+                4.72929
+            ],
+            [
+                -74.040365,
+                4.729007
+            ],
+            [
+                -74.034801,
+                4.726523
+            ],
+            [
+                -74.032048,
+                4.72527
+            ]
+        ]
+    };
+
+    const coordinatesCalle147 = cicloviaCalle147.coordinates;
 
     // Coordenadas de Bogotá, Colombia (centro aproximado)
     const bogota = {latitud: 4.609710, longitud: -74.081749};
@@ -304,6 +357,7 @@
     // Crea una línea de ruta con las coordenadas
     const rutaCiclovia170 = L.polyline(coordinates170.map(coord => [coord[1], coord[0]]), {color: 'red'}).addTo(map);
     const rutaAvCarrera9_Usaquen = L.polyline(coordinatesAvCarrera9_Usaquen.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(map);
+    const rutaCalle147  = L.polyline(coordinatesCalle147.map(coord => [coord[1], coord[0]]), { color: 'blue' }).addTo(map);
 
     // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
     // const allCoordinates = [...coordinates50centro, ...coordenadas];
