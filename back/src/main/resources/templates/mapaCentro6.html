@@ -587,14 +587,11 @@
     // Crea una línea de ruta con las coordenadas
     //const ruta = L.polyline(coordenadas.map(coordenada => [coordenada.longitud, coordenada.latitud]), { color: 'red' }).addTo(map);
     const ruta = L.polyline(coordinatescentro6.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);
-    // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
-    //const allCoordinates = [...coordinatescarrera7, ...coordenadas];
 
     // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
     const bounds = ruta.getBounds();
     map.fitBounds(bounds);
 
-    // Función para retroceder a la página de tramos
     function retrocederTramos() {
         window.location.href = '/usuarios/tramos';
     }
