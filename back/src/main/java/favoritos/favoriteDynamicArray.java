@@ -1,29 +1,44 @@
 package favoritos;
 
-public class favoriteDynamicArray {
+import java.util.ArrayList;
+import java.util.List;
 
-    int size;
-    int capacity = 4;
-    Object[] favorite;
+public class favoriteDynamicArray<T> {
+
+    private int size;
+    private int capacity = 4;
+    private T[] favorite;
 
     public favoriteDynamicArray() {
-        // Constructor para crear el arreglo favorite con un tamanho por defecto de 4
-        this.favorite = new Object[capacity];
+        this.favorite = (T[]) new Object[capacity];
+    }
+
+    public List<T> getFavorites() {
+        List<T> favoritesList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            favoritesList.add(favorite[i]);
+        }
+        return favoritesList;
+    }
+
+    public void clearFavorites() {
+        // Reiniciar el arreglo y el tamaño
+        favorite = (T[]) new Object[capacity];
+        size = 0;
     }
 
     public favoriteDynamicArray(int capacity) {
-        // Constructor para crear el arreglo favorite con un tamanho dado por el usuario
         this.capacity = capacity;
-        this.favorite = new Object[capacity];
+        this.favorite = (T[]) new Object[capacity];
     }
 
-    public Object getFavorites(int index) {
-        // Metodo para obtener un elemento en concreto de favoritos a travez de su indice
+    public T getFavorites(int index) {
         return favorite[index];
     }
 
-    public void addFavorites(Object data) {
-        // Metodo para anhadir rutas a favoritas cuando el usuario lo requiera
+
+
+    public void addFavorites(T data) {
         if (size >= capacity) {
             growFavorites();
         }
@@ -31,13 +46,10 @@ public class favoriteDynamicArray {
         size++;
     }
 
-    public void insertFavorites(int index, Object data) {
-        // Metodo para inserta una ruta en una posicion espeficica de favoritos dada por el usuario
+    public void insertFavorites(int index, T data) {
         if (size >= capacity) {
             growFavorites();
         }
-        // Con este for movemos las rutas una casilla a la derecha
-        // Liberamos el espacio para la que queramos insertar en esa posicion
         for (int i = size; i > index; i--) {
             favorite[i] = favorite[i - 1];
         }
@@ -45,56 +57,49 @@ public class favoriteDynamicArray {
         size++;
     }
 
-    public void deleteFavorites(Object data) {
-        // Metodo para eliminar una ruta de favoritos suministrada por el usuario
+    public void deleteFavorites(T data) {
+        int indexToRemove = -1; // Inicializamos con un valor que indica que no se encontró el elemento
         for (int i = 0; i < size; i++) {
-            if (favorite[i] == data) {
-                for (int j = 0; j < (size - i - 1); j++) {
-                    favorite[i + j] = favorite[i + j + 1];
-                }
-                favorite[size - 1] = null;
-                size--;
-                // Si el usuario creo una arreglo demasiado grande y esta ocupando menos de 1/3 de este
-                // Reduciremos el tamanho del arreglo a la mitad para no gastar memoria de forma inutil
-                // Para esto llamamos al metodo shrinkFavorites();
-                if (size <= (int) (capacity / 3)) {
-                    shrinkFavorites();
-                }
+            if (favorite[i].equals(data)) {
+                indexToRemove = i; // Almacenamos el índice encontrado
                 break;
             }
         }
-    }
 
-    public int searchFavorites(Object data) {
-        // Metodo para buscar una ruta de favoritos suministrada por el usuario
-        for (int i = 0; i < size; i++) {
-            if (favorite[i] == data) {
-                return i;
+        if (indexToRemove != -1) { // Verificamos si se encontró el elemento
+            for (int j = indexToRemove; j < size - 1; j++) {
+                favorite[j] = favorite[j + 1];
+            }
+            size--;
+            if (size <= (int) (capacity / 3)) {
+                shrinkFavorites();
             }
         }
-        return -1;
+    }
+
+    public T searchFavorites(T data) {
+        for (int i = 0; i < size; i++) {
+            if (favorite[i].equals(data)) {
+                return (T) favorite[i];
+            }
+        }
+        return null;  // O algún valor por defecto si no se encuentra
     }
 
     private void growFavorites() {
-        // Metodo para aumentar la capacidad del arreglo de forma amortizada una vez se llene
         int newCapacity = (int) (capacity * 2);
-        Object[] newFavorite = new Object[newCapacity];
+        T[] newFavorite = (T[]) new Object[newCapacity];
 
-        for (int i = 0; i < size; i++) {
-            newFavorite[i] = favorite[i];
-        }
+        System.arraycopy(favorite, 0, newFavorite, 0, size);
         capacity = newCapacity;
         favorite = newFavorite;
     }
 
     private void shrinkFavorites() {
-        // Metodo para reducir la capcidad del arreglo si se esta usando menos de un 1/3 del espacio de este
         int newCapacity = (int) (capacity / 2);
-        Object[] newFavorite = new Object[newCapacity];
+        T[] newFavorite = (T[]) new Object[newCapacity];
 
-        for (int i = 0; i < size; i++) {
-            newFavorite[i] = favorite[i];
-        }
+        System.arraycopy(favorite, 0, newFavorite, 0, size);
         capacity = newCapacity;
         favorite = newFavorite;
     }
@@ -104,17 +109,15 @@ public class favoriteDynamicArray {
     }
 
     public String toString() {
-        // Este metodo imprime todos los elementos de favoritos separado por comas ", "
-        String string = "";
+        StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < capacity; i++) {
-            string += favorite[i] + ", ";
+        for (int i = 0; i < size; i++) {
+            stringBuilder.append(favorite[i]);
+            if (i < size - 1) {
+                stringBuilder.append(", ");
+            }
         }
-        if (string != "") {
-            string = "[" + string.substring(0, string.length() - 2) + "]";
-        } else {
-            string = "[]";
-        }
-        return string;
+
+        return "[" + stringBuilder.toString() + "]";
     }
 }

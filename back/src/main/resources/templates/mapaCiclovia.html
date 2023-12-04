@@ -199,12 +199,11 @@
                 <div class="custom-input">
                     <label for="etiqueta2">Fin ruta:</label>
                     <input type="text" id="etiqueta2" name="etiqueta2" class="form-control">
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-
 
 
     <!-- Modal de Historial -->
@@ -238,18 +237,55 @@
         </div>
     </div>
 
+    <!-- Modal de favoritos -->
+    <div class="modal fade" id="favoritosModal" tabindex="-1" role="dialog" aria-labelledby="favoritosModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="favoritosModalLabel">Favoritos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <table class="table mt-4" id="tablaFavoritos">
+                            <thead>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn custom-button btn-link text-muted mr-auto" id="botonBorrarFavoritos">Borrar favoritos</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <br>
     <!-- Botón centrado en la parte inferior -->
     <div class="container text-center">
         <a href="#otra-pestana" class="btn btn-lg mt-3 btn-green">Iniciar nueva ruta</a>
+        <button type="button" class="btn btn-link" id="botonFavoritos" style="margin-top: 20px;" title="Añadir a favoritos">
+            <img src="../static/pngwing.com.png" height="30" width="30" />
+        </button>
     </div>
+
     <!-- Botón de Historial -->
     <div class="container text-center">
           <button type="button" class="btn custom-button btn-link text-muted" data-toggle="modal" id="botonHistorial">Historial</button>
     </div>
 
-
+    <div class="container text-center">
+        <button type="button" class="btn custom-button btn-link text-muted" id="botonAbrirFavoritos">Favoritos</button>
+    </div>
 
     <br>
     <!-- Link "¿Necesitas ayuda?" -->
@@ -273,7 +309,162 @@
 </div>
 
 
-<!--Funciones historial-->
+<!--Funciones favoritos-->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Función para enviar la información al servidor y agregarla al historial
+        function guardarEnFavoritos(direccionInicio, direccionFin) {
+            fetch('/agregarRutaFavoritos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    inicioRuta: document.getElementById('etiqueta1').value,
+                    finRuta: document.getElementById('etiqueta2').value,
+                }),
+            })
+                .then(() => {
+                    console.log('Ruta agregada a favoritos');
+                })
+                .catch(error => console.error('Error al agregar ruta a favoritos:', error));
+        }
+
+
+        document.getElementById('botonFavoritos').addEventListener('click', function () {
+
+            guardarEnFavoritos();
+        });
+    });
+</script>
+
+<!--Función para cargar y mostrar favoritos-->
+ <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        function cargarFavoritos() {
+            const favoritosTable = document.getElementById('tablaFavoritos');
+
+            if (favoritosTable) {
+                favoritosTable.innerHTML = "";
+
+                // Agregar fila de encabezado
+                const headerRow = favoritosTable.insertRow();
+                const headers = ["Inicio de la Ruta", "Fin de la Ruta", "Elegir Ruta", "Borrar"];
+
+                headers.forEach(headerText => {
+                    const th = document.createElement("th");
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+
+
+                fetch('/obtenerFavoritos')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(ruta => {
+                            const row = favoritosTable.insertRow();
+                            row.innerHTML = `
+                                <td>${ruta.inicioRuta}</td>
+                                <td>${ruta.finRuta}</td>
+                                <td>
+                                    <button type="button" class="btn custom-button btn-link text-muted"
+                                        data-rutainicio="${ruta.inicioRuta}" data-rutafin="${ruta.finRuta}"
+                                        onclick="seleccionarFavorito(this)">Elegir Ruta</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-link" title="Borrar de favoritos"
+                                         data-rutainicio="${ruta.inicioRuta}" data-rutafin="${ruta.finRuta}"
+                                        onclick="borrarFavorito('${ruta.inicioRuta}', '${ruta.finRuta}')">
+                                        <img src="../static/botoneliminar.png" height="12" width="13" />
+                                    </button>
+                                </td>
+
+
+                            `;
+                        });
+                    })
+                    .catch(error => console.error('Error al obtener favoritos:', error));
+            } else {
+                console.error('Elemento con ID  no encontrado.');
+            }
+        }
+
+        const botonAbrirModal = document.getElementById('botonAbrirFavoritos');
+        if (botonAbrirModal) {
+            botonAbrirModal.addEventListener('click', function () {
+                cargarFavoritos();
+                $('#favoritosModal').modal('show');
+            });
+        }
+    });
+
+</script>
+
+<!--Funcion borrar favoritos-->
+<script>
+    $(document).ready(function() {
+        $('#botonBorrarFavoritos').on('click', function() {
+            $.ajax({
+                type: 'POST',
+                url: '/borrarFavoritos',
+                success: function() {
+                    $('#favoritosModal').modal('hide');
+                    alert('Favoritos borrados');
+                },
+                error: function(error) {
+                    console.error('Error al borrar los favoritos:', error);
+                }
+            });
+        });
+    });
+
+</script>
+
+<!--Funcion elegir ruta de favoritos-->
+<script th:inline="javascript">
+    function seleccionarFavorito(btn) {
+        var inicioRutaSeleccionado = $(btn).data('rutainicio');
+        var finRutaSeleccionado = $(btn).data('rutafin');
+
+        $('#etiqueta1').val(inicioRutaSeleccionado);
+        $('#etiqueta2').val(finRutaSeleccionado);
+
+        $('#favoritosModal').modal('hide');
+    }
+</script>
+
+<!--Funcion borrar elemento de favoritos-->
+
+<script>
+    function borrarFavorito(rutainicio, rutafin) {
+        console.log("Borrando favorito con inicio: " + rutainicio + " y fin: " + rutafin);
+
+        fetch('/borrarFavorito', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `rutainicio=${rutainicio}&rutafin=${rutafin}`,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al borrar el favorito');
+                }
+                console.log('Favorito borrado con éxito');
+                $('#favoritosModal').modal('hide');
+                alert('Favorito borrado');
+            })
+            .catch(error => console.error('Error:', error));
+
+    }
+</script>
+
+
+<!--Funciones Historial-->
+
 <script>
     // Función para enviar la información al servidor y agregarla al historial
     function guardarEnHistorial(direccionInicio, direccionFin) {
@@ -382,7 +573,6 @@
         $('#historialModal').modal('hide');
     }
 </script>
-
 
 </body>
 
