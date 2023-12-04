@@ -403,7 +403,7 @@ public class tramo {
         );
         agregarEntrada("Centro5", coordenadasCuartoTramo);
 
-        List<Coordenada> coordenadasQuintoTramo_2 = List.of(
+        List<Coordenada> coordenadasCentro6 = List.of(
                 new Coordenada(-74.074729, 4.61894),
                 new Coordenada(-74.07465, 4.619113),
                 new Coordenada(-74.074689, 4.619459),
@@ -505,39 +505,11 @@ public class tramo {
                 new Coordenada(-74.061668, 4.624401),
                 new Coordenada(-74.061825, 4.624509),
                 new Coordenada(-74.061916, 4.624536),
-                new Coordenada(-74.061994, 4.624541),
-                new Coordenada(-74.062188, 4.624512),
-                new Coordenada(-74.062401, 4.624397),
-                new Coordenada(-74.062494, 4.624326),
-                new Coordenada(-74.062566, 4.624241),
-                new Coordenada(-74.062849, 4.623728),
-                new Coordenada(-74.062892, 4.623674),
-                new Coordenada(-74.062962, 4.623635),
-                new Coordenada(-74.063071, 4.623637),
-                new Coordenada(-74.063146, 4.623683),
-                new Coordenada(-74.063202, 4.623779),
-                new Coordenada(-74.063213, 4.623843),
-                new Coordenada(-74.063204, 4.623916),
-                new Coordenada(-74.063168, 4.624009),
-                new Coordenada(-74.063023, 4.624266),
-                new Coordenada(-74.062941, 4.624445),
-                new Coordenada(-74.06295, 4.624514),
-                new Coordenada(-74.063021, 4.624598),
-                new Coordenada(-74.063206, 4.624608),
-                new Coordenada(-74.063453, 4.624514),
-                new Coordenada(-74.063727, 4.624326),
-                new Coordenada(-74.063905, 4.624224),
-                new Coordenada(-74.063942, 4.624217),
-                new Coordenada(-74.064166, 4.624285),
-                new Coordenada(-74.065054, 4.625296),
-                new Coordenada(-74.065262, 4.625656),
-                new Coordenada(-74.065311, 4.62571),
-                new Coordenada(-74.065423, 4.625795),
-                new Coordenada(-74.065596, 4.625888)
+                new Coordenada(-74.061994, 4.624541)
         );
 
 
-        agregarEntrada("Centro6",coordenadasQuintoTramo_2);
+        agregarEntrada("Centro6",coordenadasCentro6);
 
 
         List<Coordenada> coordenadasQuintoTramo = List.of(
