@@ -85,24 +85,6 @@
 <div id="map"></div>
 
 <!-- Contenedor para las etiquetas e inputs del usuario -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Desde</h2>
-            <div class="custom-input">
-                <label for="etiqueta1">Inicio ruta:</label>
-                <input type="text" id="etiqueta1" class="form-control">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <h2>Hasta</h2>
-            <div class="custom-input">
-                <label for="etiqueta2">Fin ruta:</label>
-                <input type="text" id="etiqueta2" class="form-control">
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Botón desplegable para seleccionar el tramo -->
 <div class="container text-left mt-3">
@@ -116,20 +98,28 @@
         </div>
     </div>
 </div>
-<!-- Texto resaltado en negrilla y botones verdes en la parte inferior derecha -->
-<div class="container text-right mt-3 ">
-    <a th:href="@{/rutas/mostrarRutas}" class="btn custom-button">Ver rutas ejecutadas</a>
-    <button class="btn custom-button" id="iniciarRecorrido" onclick="agregarRutaCola()">Ver Mapa</button>
+
+<!-- Botones en la parte inferior derecha -->
+<div class="container text-right mt-3 d-flex justify-content-end">
+    <div class="d-inline-block">
+        <a th:href="@{/rutas/mostrarRutas}" class="btn custom-button">Ver rutas ejecutadas</a>
+        <button class="btn custom-button" id="iniciarRecorrido" onclick="agregarRutaCola()">Ver Mapa</button>
+    </div>
+
+    <div class="d-inline-block ml-2">
+        <button id="puntosReparacionButton" class="btn custom-button">Puntos de Reparación</button>
+        <button id="insertarCoordenadasBtn" class="btn custom-button">Insertar Coordenadas</button>
+    </div>
+
 
 </div>
-<div class="container text-right mt-3 ">
-    <button id="puntosReparacionButton" class="btn custom-button">Puntos de Reparación</button>
-    <button id="insertarCoordenadasBtn" class="btn custom-button">Insertar Coordenadas</button>
 
-</div>
+
 
 <!-- Enlace "¿Necesitas ayuda?" que te dirige a otra pestaña -->
-<a href="#ayuda" class="btn btn-link">¿Necesitas ayuda?</a>
+<div class="container mt-3 text-center d-flex justify-content-end align-items-center">
+    <a href="#ayuda" class="btn btn-link">¿Necesitas ayuda?</a>
+</div>
 
 <!-- Enlace a la pestaña de ayuda -->
 <div id="ayuda">
