@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Incluye Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Otras etiquetas del encabezado -->
+    <style>
+        body {
+            margin: 0; /* Elimina el margen predeterminado del cuerpo de la página */
+            padding: 0; /* Elimina el relleno predeterminado del cuerpo de la página */
+        }
+
+        #map-container {
+            position: absolute;
+            top: 50px; /* Espaciado en la parte superior del contenedor del mapa */
+            left: 50px; /* Espaciado en el lado izquierdo del contenedor del mapa */
+            bottom: 50px; /* Espaciado en la parte inferior del contenedor del mapa */
+            right: 50px; /* Espaciado en el lado derecho del contenedor del mapa */
+            transition: transform 0.5s; /* Agrega una transición suave para la rotación */
+        }
+
+        #retroceder-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000; /* Asegura que el botón esté sobre el mapa */
+            background-color: green; /* Cambia el color del botón a verde */
+            color: white; /* Cambia el color del texto del botón a blanco */
+        }
+
+        #map {
+            height: 100%; /* Ajusta la altura del mapa para que ocupe todo el contenedor */
+            width: 100%; /* Ajusta el ancho del mapa para que ocupe todo el contenedor */
+        }
+    </style>
+</head>
+<body>
+<div id="retroceder-btn" class="btn btn-primary" onclick="retrocederTramos()">Retroceder a Tramos</div>
+<div id="map-container">
+    <!-- Contenedor para el mapa -->
+    <div id="map"></div>
+</div>
+
+<script>
+
+
+
+    const cicloviaCalle39Uno = {
+        "coordinates": [
+            [
+                -74.12699,
+                4.596491
+            ],
+            [
+                -74.127446,
+                4.59685
+            ],
+            [
+                -74.12795,
+                4.597267
+            ],
+            [
+                -74.128308,
+                4.596828
+            ],
+            [
+                -74.128533,
+                4.597005
+            ],
+            [
+                -74.128774,
+                4.597203
+            ],
+            [
+                -74.128318,
+                4.597791
+            ],
+            [
+                -74.128726,
+                4.598117
+            ],
+            [
+                -74.12915,
+                4.59847
+            ],
+            [
+                -74.129262,
+                4.598368
+            ],
+            [
+                -74.12952,
+                4.59863
+            ],
+            [
+                -74.12997,
+                4.599111
+            ],
+            [
+                -74.130362,
+                4.599496
+            ],
+            [
+                -74.131059,
+                4.600208
+            ],
+            [
+                -74.131531,
+                4.600582
+            ],
+            [
+                -74.131584,
+                4.600625
+            ],
+            [
+                -74.132389,
+                4.60117
+            ],
+            [
+                -74.132389,
+                4.60117
+            ],
+            [
+                -74.133156,
+                4.601657
+            ],
+            [
+                -74.13359,
+                4.601945
+            ],
+            [
+                -74.133637,
+                    4.601983
+            ],
+            [
+                -74.134003,
+                4.60156
+            ],
+            [
+                -74.134491,
+                4.600817
+            ],
+            [
+                -74.134738,
+                4.600422
+            ],
+            [
+                -74.13499,
+                4.600053
+            ],
+            [
+                -74.13595,
+                4.598513
+            ],
+            [
+                -74.13683,
+                4.599127
+            ],
+            [
+                -74.136653,
+                4.599443
+            ],
+            [
+                -74.136921,
+                4.599919
+            ],
+            [
+                -74.137355,
+                4.600721
+            ],
+            [
+                -74.137811,
+                4.601555
+            ],
+            [
+                -74.138079,
+                4.602004
+            ],
+            [
+                -74.138385,
+                4.60255
+            ],
+            [
+                -74.13854,
+                4.602854
+            ],
+            [
+                -74.138969,
+                4.60355
+            ],
+            [
+                -74.139291,
+                4.604095
+            ],
+            [
+                -74.139473,
+                4.60441
+            ],
+            [
+                -74.139752,
+                4.60486
+            ],
+            [
+                -74.139836,
+                4.605004
+            ],
+            [
+                -74.139975,
+                4.605234
+            ],
+            [
+                -74.140346,
+                4.605843
+            ],
+            [
+                -74.140581,
+                4.60625
+            ],
+            [
+                -74.140608,
+                4.606335
+            ],
+            [
+                -74.140512,
+                4.607897
+            ],
+            [
+                -74.140517,
+                4.608046
+            ],
+            [
+                -74.140539,
+                4.608603
+            ],
+            [
+                -74.140587,
+                4.609121
+            ],
+            [
+                -74.140635,
+                4.609811
+            ],
+            [
+                -74.140631,
+                4.609822
+            ],
+            [
+                -74.141275,
+                4.609522
+            ],
+            [
+                -74.141489,
+                4.607988
+            ],
+            [
+                -74.141773,
+                4.607945
+            ],
+            [
+                -74.142471,
+                4.607918
+            ],
+            [
+                -74.143012,
+                4.60787
+            ],
+            [
+                -74.14357,
+                4.607849
+            ],
+            [
+                -74.143597,
+                4.608169
+            ],
+            [
+                -74.143602,
+                4.608341
+            ],
+            [
+                -74.143876,
+                4.608576
+            ],
+            [
+                -74.143924,
+                4.608587
+            ],
+            [
+                -74.144723,
+                4.609351
+            ],
+            [
+                -74.14541,
+                4.610004
+            ]
+
+
+
+        ]
+    };
+
+    const coordinatesCalle39Uno = cicloviaCalle39Uno.coordinates;
+
+    const cicloviaCalle39Dos = {
+        "coordinates": [
+            [
+                -74.144718,
+                4.60934
+            ],
+            [
+                -74.14519,
+                4.60887
+            ],
+            [
+                -74.14594,
+                4.609586
+            ],
+            [
+                -74.145447,
+                4.610121
+            ],
+            [
+                -74.145924,
+                4.610592
+            ],
+            [
+                -74.146262,
+                4.610913
+            ],
+            [
+                -74.146643,
+                4.611297
+            ],
+            [
+                -74.147179,
+                4.611822
+            ],
+            [
+                -74.147383,
+                4.612084
+            ],
+            [
+                -74.147716,
+                4.612549
+            ],
+            [
+                -74.148021,
+                4.61295
+            ],
+            [
+                -74.148257,
+                4.613228
+            ],
+            [
+                -74.148842,
+                4.613955
+            ],
+            [
+                -74.149137,
+                4.614292
+            ],
+            [
+                -74.149442,
+                4.614661
+            ],
+            [
+                -74.149587,
+                4.614848
+            ],
+            [
+                -74.149689,
+                4.614966
+            ],
+            [
+                -74.149936,
+                4.615286
+            ],
+            [
+                -74.150322,
+                4.615003
+            ],
+            [
+                -74.150783,
+                4.615666
+            ],
+            [
+                -74.150435,
+                4.615917
+            ],
+            [
+                -74.150853,
+                4.616532
+            ],
+            [
+                -74.150874,
+                4.616655
+            ],
+            [
+                -74.150896,
+                4.616816
+            ],
+            [
+                -74.150976,
+                4.617302
+            ]
+                [
+                -74.144718,
+                    4.60934
+                ],
+            [
+                -74.14519,
+                4.60887
+            ],
+            [
+                -74.14594,
+                4.609586
+            ],
+            [
+                -74.145447,
+                4.610121
+            ],
+            [
+                -74.145924,
+                4.610592
+            ],
+            [
+                -74.146262,
+                4.610913
+            ],
+            [
+                -74.146643,
+                4.611297
+            ],
+            [
+                -74.147179,
+                4.611822
+            ],
+            [
+                -74.147383,
+                4.612084
+            ],
+            [
+                -74.147716,
+                4.612549
+            ],
+            [
+                -74.148021,
+                4.61295
+            ],
+            [
+                -74.148257,
+                4.613228
+            ],
+            [
+                -74.148842,
+                4.613955
+            ],
+            [
+                -74.149137,
+                4.614292
+            ],
+            [
+                -74.149442,
+                4.614661
+            ],
+            [
+                -74.149587,
+                4.614848
+            ],
+            [
+                -74.149689,
+                4.614966
+            ],
+            [
+                -74.149936,
+                4.615286
+            ],
+            [
+                -74.150322,
+                4.615003
+            ],
+            [
+                -74.150783,
+                4.615666
+            ],
+            [
+                -74.150435,
+                4.615917
+            ],
+            [
+                -74.150853,
+                4.616532
+            ],
+            [
+                -74.150874,
+                4.616655
+            ],
+            [
+                -74.150896,
+                4.616816
+            ],
+            [
+                -74.150976,
+                4.617302
+            ]
+
+        ]
+    };
+
+    const coordinatesCalle39Dos = cicloviaCalle39Dos.coordinates;
+
+
+
+    // Coordenadas de Bogotá, Colombia (Usaquen)
+
+
+    const bogota = {latitud: 4.601945, longitud: -74.13359};
+
+    // Obtén las coordenadas de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const coordenadasParam = urlParams.get('coordenadas');
+    const coordenadas = JSON.parse(decodeURIComponent(coordenadasParam));
+
+    // Crea un mapa con Leaflet centrado en Bogotá
+    var map = L.map('map').setView([bogota.latitud, bogota.longitud], 14);
+
+    // Agrega una capa de mapa base (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Crea una línea de ruta con las coordenadas
+    const rutaCicloCalle39Uno = L.polyline(coordinatesCalle39Uno.map(coord => [coord[1], coord[0]]), {color: 'red'}).addTo(map);
+    const rutaCicloCalle39Dos = L.polyline(coordinatesCalle39Dos.map(coord => [coord[1], coord[0]]), {color: 'red'}).addTo(map);
+
+    // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+    const allCoordinates = [...coordinatesCalle39Uno, ...coordinatesCalle39Dos];
+
+    // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+    const bounds = ruta.getBounds().extend(rutaCicloCalle39Uno.getBounds());
+    map.fitBounds(bounds);
+
+    // Función para retroceder a la página de tramos
+    function retrocederTramos() {
+        window.location.href = '/usuarios/tramos';
+    }
+</script>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

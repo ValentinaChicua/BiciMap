@@ -51,6 +51,12 @@ public class tramoController {
         model.addAttribute("coordenadas", coordenadas);
         return "mapaSur3";
     }
+    @GetMapping("/usuarios/mapaCentro1")
+    public String mostrarMapaCentro1(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
+        model.addAttribute("coordenadas", coordenadas);
+        return "mapaCentro1";
+    }
+
 
     @GetMapping("/usuarios/mapaCentro2")
     public String mostrarMapaCentro2(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
@@ -95,4 +101,17 @@ public class tramoController {
         model.addAttribute("coordenadas", coordenadas);
         return "mapaNorte3";
     }
+
+    @GetMapping("/usuarios/mapaSur1")
+    public String mostrarMapaSur1(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
+        model.addAttribute("coordenadas", coordenadas);
+        return "mapaSur1";
+    }
+    @GetMapping("/usuarios/mapaSur2")
+    public String mostrarMapaSur2(@RequestParam(name = "coordenadas") String coordenadas, Model model) {
+        model.addAttribute("coordenadas", coordenadas);
+        return "mapaSur2";
+    }
 }
+
+

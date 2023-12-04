@@ -250,6 +250,82 @@
             .catch(error => console.error('Error:', error));
     });
 
+    document.getElementById('Norte2').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Norte2')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaNorte2?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('Centro1').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Centro1')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaCentro1?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('Sur1').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Sur1')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaSur1?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('Sur2').addEventListener('click', function() {
+        fetch('/obtenerCoordenadasTramo/Sur2')
+            .then(response => response.json())
+            .then(coordenadas => {
+                // Parsea las coordenadas si no están en formato de objeto JSON
+                if (typeof coordenadas === 'string') {
+                    coordenadas = JSON.parse(coordenadas);
+                }
+
+                // Verifica que coordenadas es un array antes de continuar
+                if (Array.isArray(coordenadas)) {
+                    window.location.href = '/usuarios/mapaSur2?coordenadas=' + encodeURIComponent(JSON.stringify(coordenadas));
+                } else {
+                    console.error('Las coordenadas no son un array:', coordenadas);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
 </script>
 </body>
 </html>

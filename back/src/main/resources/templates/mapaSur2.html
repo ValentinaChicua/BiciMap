@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <!-- Incluye Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
@@ -12,6 +12,7 @@
             margin: 0; /* Elimina el margen predeterminado del cuerpo de la página */
             padding: 0; /* Elimina el relleno predeterminado del cuerpo de la página */
         }
+
         #map-container {
             position: absolute;
             top: 50px; /* Espaciado en la parte superior del contenedor del mapa */
@@ -20,6 +21,7 @@
             right: 50px; /* Espaciado en el lado derecho del contenedor del mapa */
             transition: transform 0.5s; /* Agrega una transición suave para la rotación */
         }
+
         #retroceder-btn {
             position: absolute;
             top: 10px;
@@ -28,6 +30,7 @@
             background-color: green; /* Cambia el color del botón a verde */
             color: white; /* Cambia el color del texto del botón a blanco */
         }
+
         #map {
             height: 100%; /* Ajusta la altura del mapa para que ocupe todo el contenedor */
             width: 100%; /* Ajusta el ancho del mapa para que ocupe todo el contenedor */
@@ -42,258 +45,273 @@
 </div>
 
 <script>
-    const calle17sur= {
-        "coordinates":[
-            [
-                -74.099364,
-                4.681068
-            ],
-            [
-                -74.100254,
-                4.679966
-            ],
-            [
-                -74.101777,
-                4.677977
-            ],
-            [
-                -74.10315,
-                4.675989
-            ],
-            [
-                -74.103815,
-                4.674876
-            ],
-            [
-                -74.104126,
-                4.674107
-            ],
-            [
-                -74.104351,
-                4.673893
-            ],
-            [
-                -74.105081,
-                4.673059
-            ],
-            [
-                -74.106432,
-                4.671743
-            ],
-            [
-                -74.107387,
-                4.670792
-            ],
-            [
-                -74.108727,
-                4.66938
-            ],
-            [
-                -74.110155,
-                4.668065
-            ],
-            [
-                -74.111314,
-                4.666707
-            ],
-            [
-                -74.111915,
-                4.666087
-            ],
-            [
-                -74.112687,
-                4.66521
-            ],
-            [
-                -74.113534,
-                4.664226
-            ],
-            [
-                -74.114296,
-                4.66336
-            ],
-            [
-                -74.114853,
-                4.66275
-            ],
-            [
-                -74.115304,
-                4.662162
-            ],
-            [
-                -74.116012,
-                4.661349
-            ],
-            [
-                -74.116891,
-                4.660355
-            ],
-            [
-                -74.117846,
-                4.659254
-            ],
-            [
-                -74.119144,
-                4.657821
-            ],
-            [
-                -74.120098,
-                4.656612
-            ],
-            [
-                -74.120796,
-                4.655853
-            ],
-            [
-                -74.121815,
-                4.654634
-            ],
-            [
-                -74.123434,
-                4.652677
-            ],
-            [
-                -74.124561,
-                4.651298
-            ],
-            [
-                -74.125579,
-                4.65025
-            ],
-            [
-                -74.126341,
-                4.649341
-            ],
-            [
-                -74.127403,
-                4.648496
-            ],
-            [
-                -74.12854,
-                4.647608
-            ],
-            [
-                -74.13106,
-                4.645972
-            ],
-            [
-                -74.13209,
-                4.644903
-            ],
-            [
-                -74.132927,
-                4.643983
-            ],
-            [
-                -74.133817,
-                4.642689
-            ],
-            [
-                -74.13431,
-                4.641951
-            ],
-            [
-                -74.13549,
-                4.640144
-            ],
-            [
-                -74.136166,
-                4.638722
-            ],
-            [
-                -74.136552,
-                4.637727
-            ],
-            [
-                -74.136981,
-                4.636348
-            ],
-            [
-                -74.137249,
-                4.635001
-            ],
-            [
-                -74.137496,
-                4.633151
-            ],
-            [
-                -74.137625,
-                4.631718
-            ],
-            [
-                -74.137721,
-                4.630755
-            ],
-            [
-                -74.137871,
-                4.629344
-            ],
-            [
-                -74.138065,
-                4.627387
-            ],
-            [
-                -74.138247,
-                4.625772
-            ],
-            [
-                -74.138376,
-                4.624211
-            ],
-            [
-                -74.138687,
-                4.621869
-            ],
-            [
-                -74.139212,
-                4.619623
-            ],
-            [
-                -74.139598,
-                4.618061
-            ],
-            [
-                -74.140017,
-                4.616618
-            ],
-            [
-                -74.140296,
-                4.615206
-            ],
-            [
-                -74.140671,
-                4.613463
-            ],
-            [
-                -74.140907,
-                4.612287
-            ],
-            [
-                -74.1411,
-                4.611142
-            ],
-            [
-                -74.141272,
-                4.609635
-            ],
-            [
-                -74.141433,
-                4.607977
-            ],
-            [
-                -74.141829,
-                4.606972
-            ],
+
+    const avenidaBoyacaTres = {
+        "coordinates": [
+
             [
                 -74.142301,
                 4.605614
-            ]
-        ]
-    }
-    const coordinates17sur = calle17sur.coordinates;
-    // Coordenadas de Bogotá, Colombia (centro aproximado 17sur)
+            ],
+            [
+                -74.142945,
+                4.603892
+            ],
+            [
+                -74.143395,
+                4.602758
+            ],
+            [
+                -74.143782,
+                4.601774
+            ],
+            [
+                -74.144178,
+                4.600662
+            ],
+            [
+                -74.144586,
+                4.599529
+            ],
+            [
+                -74.144758,
+                4.599069
+            ],
+                [
+                -74.14228,
+                    4.60572
+                ],
+            [
+                -74.142411,
+                4.6054
+            ],
+            [
+                -74.142545,
+                4.605031
+            ],
+            [
+                -74.143022,
+                4.603726
+            ],
+            [
+                -74.143354,
+                4.602854
+            ],
+            [
+                -74.143939,
+                4.601256
+            ],
+            [
+                -74.14477,
+                4.599047
+            ],
+            [
+                -74.144926,
+                4.598539
+            ],
+            [
+                -74.145124,
+                4.597753
+            ],
+            [
+                -74.145199,
+                4.597432
+            ],
+            [
+                -74.145317,
+                4.596513
+            ],
+            [
+                -74.145419,
+                4.596187
+            ],
+            [
+                -74.145414,
+                4.595272
+            ],
+            [
+                -74.145403,
+                4.594705
+            ],
+            [
+                -74.145409,
+                4.593545
+            ],
 
-    const bogota = { latitud: 4.649102, longitud: -74.126493 };
+                [
+                -74.14534,
+                    4.593005
+                ],
+            [
+                -74.145345,
+                4.591604
+            ],
+            [
+                -74.145318,
+                4.590952
+            ],
+            [
+                -74.145318,
+                4.590085
+            ],
+            [
+                -74.145292,
+                4.589364
+            ],
+            [
+                -74.145152,
+                4.58884
+            ],
+            [
+                -74.144777,
+                4.587888
+            ],
+            [
+                -74.144337,
+                4.586813
+            ],
+            [
+                -74.14408,
+                4.586075
+            ],
+            [
+                -74.143538,
+                4.584738
+            ],
+            [
+                -74.143259,
+                4.583979
+            ],
+            [
+                -74.143216,
+                4.583738
+            ],
+            [
+                -74.143136,
+                4.583198
+            ],
+            [
+                -74.143082,
+                4.582642
+            ],
+            [
+                -74.142921,
+                4.581883
+            ],
+            [
+                -74.142712,
+                4.581311
+            ],
+            [
+                -74.142556,
+                4.580888
+            ],
+            [
+                -74.142374,
+                4.580412
+            ],
+            [
+                -74.142192,
+                4.579947
+            ],
+            [
+                -74.141859,
+                4.579033
+            ],
+            [
+                -74.141452,
+                4.578113
+            ],
+            [
+                -74.141173,
+                4.577434
+            ],
+            [
+                -74.140792,
+                4.576642
+            ],
+            [
+                -74.14039,
+                4.575851
+            ],
+            [
+                -74.140309,
+                4.575685
+            ],
+            [
+                -74.14025,
+                4.575493
+            ],
+            [
+                -74.140164,
+                4.575284
+            ],
+            [
+                -74.140046,
+                4.574691
+            ],
+            [
+                -74.139961,
+                4.574316
+            ],
+            [
+                -74.139746,
+                4.573386
+            ],
+            [
+                -74.13965,
+                4.573076
+            ],
+            [
+                -74.139526,
+                4.572562
+            ],
+            [
+                -74.139408,
+                4.572001
+            ],
+            [
+                -74.139322,
+                4.571584
+            ],
+            [
+                -74.139156,
+                4.570857
+            ],
+            [
+                -74.138888,
+                4.569723
+            ],
+            [
+                -74.138722,
+                4.569744
+            ],
+            [
+                -74.13862,
+                4.569718
+            ],
+            [
+                -74.138513,
+                4.569643
+            ],
+            [
+                -74.138451,
+                4.5695
+            ]
+
+
+
+        ]
+    };
+
+    const coordinatesAvenidaBoyacaTres = avenidaBoyacaTres.coordinates;
+
+
+
+
+    // Coordenadas de Bogotá, Colombia (AvBoyacaTres)
+
+    const bogota = {latitud: 4.580435 , longitud: -74.142346};
 
     // Obtén las coordenadas de la URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -301,7 +319,7 @@
     const coordenadas = JSON.parse(decodeURIComponent(coordenadasParam));
 
     // Crea un mapa con Leaflet centrado en Bogotá
-    var map = L.map('map').setView([bogota.latitud, bogota.longitud], 15);
+    var map = L.map('map').setView([bogota.latitud, bogota.longitud], 14);
 
     // Agrega una capa de mapa base (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -310,13 +328,13 @@
 
     // Crea una línea de ruta con las coordenadas
 
-    const rutaCiclovia17Sur = L.polyline(coordinates17sur.map(coord => [coord[1], coord[0]]), {color: 'red'}).addTo(map);
-    /*const ruta2 = L.polyline(coordinates17sur.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);*/
-    // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
-    const allCoordinates = [...coordinates17sur];
+    const rutaAvenidaBoyacaTres = L.polyline(coordinatesAvenidaBoyacaTres.map(coord => [coord[1], coord[0]]), { color: 'red' }).addTo(map);
 
     // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
-    const bounds = ruta.getBounds().extend(rutaCiclovia17Sur.getBounds());
+    const allCoordinates = [...coordinatesAvenidaBoyacaTres];
+
+    // Ajusta el mapa para que se ajuste a todas las coordenadas con un pequeño margen
+    const bounds = ruta.getBounds().extend(rutaAvenidaBoyacaTres.getBounds());
     map.fitBounds(bounds);
 
     // Función para retroceder a la página de tramos
@@ -332,4 +350,3 @@
 
 </body>
 </html>
-
