@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class FavoritosMenu {
 
     public static void main(String[] args) {
-        favoriteDynamicArray favoritos = new favoriteDynamicArray();
+        favoriteDynamicArray<String> favoritos = new favoriteDynamicArray();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -51,7 +51,7 @@ public class FavoritosMenu {
                 case 5:
                     System.out.print("Ingrese el favorito a buscar: ");
                     String favoritoBuscar = scanner.nextLine();
-                    int posicion = favoritos.searchFavorites(favoritoBuscar);
+                    int posicion = Integer.parseInt(favoritos.searchFavorites(favoritoBuscar));
                     if (posicion != -1) {
                         System.out.println("Favorito encontrado en la posición " + posicion);
                     } else {
